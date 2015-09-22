@@ -1,0 +1,290 @@
+1.概念的介绍(网络制式)
+1G制式 就是大哥大，通话是锁定在一定频率，所以使用可调频电台就可以窃听通话。彻底退出历史舞台。
+
+2G制式 GSM(移动，联通),CDMA(电信) 等数字手机,如果手机的右上角出现G这个单词是GSM 如果是E+是EDGE,没有3G网络的时候就会使用2G网络
+
+3G制式 手机上是 3G H 3G 各个运营商之间是互相不兼容的例如说联通3G就用不了移动3G
+WCDMA 联通 TD-SCDMA移动(中国和巴基斯坦，出了中国就不大行了)CDMA2000电信
+
+4G制式 采用了 TD-LTE(移动电信联通) 和 FDD-LTE(电信联通) 两种制式。不互相兼容 
+各个运营商之间的制式是不相互兼容的。3G 4G
+
+2G/3G/4G 的区别
+速度
+这么理解(网络速度)
+2G 相当于拨号上网(12.2K)
+3G 相当于宽带(384K~2M)
+4G 相当于光纤(100M理论值实际不行)
+
+
+2.android  体系结构
+android 的底层是linux是用 linux改出来的
+android tx2.jpg
+安卓用的java虚拟机是dvm
+
+libraries 里面写的东西都是C些的
+application FRAMEWORK 里面封装了很多的java API直接调用就可以api回去调用一些c的类库,就主要学习的这里
+
+APPLICATIONS
+是应用层的内容,系统已经做好的应用,删都删不掉的
+
+
+
+=================JVM 和  DVM 的比较=================
+区别
+jvm
+编译后file格式 .java->.class->.jar
+                   jdk的javac
+
+dvm(dalvik vm)
+.java->.class->.dex->.apk
+
+.jar
+.apk 都可以用压缩工具打开
+
+.jar包里面的类是.class
+.apk里面是.dex(又且只有一个.dex classes.dex是把.class全部编译到这里面来了) 
+
+
+
+//一个3G的单独file和一个3G的file夹里面有大量小file在同时复制的时候前面的单独file会快，因为牵扯到header的问题，大量file有大量的头，而单独就一个file头.
+这可能是为什在有个.dex吧增加下效率
+
+
+架构方面的问题
+JVM是基于栈的架构(栈是内存中的一个东西)
+DVM是基于寄存器的架构(寄存器是CPU的东西)
+寄存器>内存的东西(速度快)
+
+
+Android 的新虚拟机ART(将来会取代DVM)
+DVM,每次运行的时候，字节码需要即时转换机器码，这会拖慢应用的运行速度。
+ART应用在第一次安装的时候，字节码就会预先编译成机器码，使其成为真正的本地应用，应用的启动和执行速度都明显提升。
+
+(Android开发者选项 选择运行环境(可以选择dalvik 和 ART))开发者选项
+因为ART不够稳定所以市面上改过的android的系统基本都吧ART删掉了。
+ART占用的空间多一些
+原因,除了保存字节码之外，还要保存预先编译好的机器码. 浪费空间提升效率.
+
+sdk 下载解释
+Tools
+    sdk工具集（这个是必须下载的）下载后保存在sdk/tools里面，这里面的工具大部分是启动android模拟器自动启动的工具。
+    sdk平台工具集合
+    存放在sdk/plafform-tools里面
+    adb很常用手动
+    aapt反汇编手动
+    dexdump 打包用的系统自动调用。
+Android 系统版本里面的
+    SDK Platform
+
+Android 4.3 是SDK的平台
+    SDK Platform 下载SDK Platform就可以使用4.3的模拟器，下这一个就可以使用。
+    下载后就会放到sdk/下面的 platform 里,(API #NO 这个是 模拟器API的一个等级，因为在android的代码中用这个等级表示模拟器的版本)
+    Documentation for Android SDK:
+    帮助文档，看完全版的去官方看（http://developer.android.com/reference/android/view/package-summary.html），有个搜索搜就可以。所以的话你下载一个Documentation for Android SDK 下载后在sdk目录下面的docs里面有,离线的,需要等等（断网看）。
+    使用火狐的脱机工作，工具-》开发者-》最后一个WORK OFFLINE 脱机工作,放大镜是有效的。
+    ARM EABI v7a System Image （cpu的镜像）（市面上的arm eabi v7a 和 intel）
+    镜像，在创建虚拟机的时候除了可以选择系统还可以选在cpu的镜像，CPU的架构。
+    ==inter 架构
+    ==ARM EABI v7a 架构，这两需要下载一个否则创建AVD是点击不了ok的
+    因为在同的cpu架构上有的代码可能执行结果会有不同的，所以提供2中架构，新的会有很多架构，最多用的inter ARM EABI 架构，虚拟用来调通业务的，真正的还是用真机测试。存放在system-image里面
+    Sources for Android SDK 
+    Android API 的源码 java里面可以用F3看类的源代码，但是如果在android里面要看就需要下载这个,下载后放在sources里面有各个版本的对应源代码
+
+Extras
+    Android Support Library
+    Android 支持类库,是这样的例如讲，4.0发布了一个特性，如果你使用的是2.3的系统想要有这个新特性就需要将这个新特性抽出来放到jar包，然后在2.3系统导入这个jar包
+    下载下来的特性放到extras android support 下面
+    Intel x86 Enulator accelerator HAXM inter模拟器加速器（必装）必须是机器是inter核心的cpu i3包括i3以上的 下载在 extras intel H...里面有个安装程序，需要安装下。Android 基本所有的东西下载下来就能用，但是这个需要安装下
+    安装的时候一个问题，如果碰到VT-X错误这个说明cpu支持加速器的，去BOIS里面打开。虚拟技术打开。not support就说明不支持，这些能完了选在模拟器的inter架构的模拟器
+
+AVD
+Android Virtual Device Manager
+   new -> 
+   android name
+   Device:预制好的分辨率的屏幕（3.7 480*800 3.7是屏幕适配和屏幕密度 后面那个是分辨率）
+   Target:系统版本
+   cpu/ABI:架构核心，在有加速器的情况intel快，否则abi快
+   Keyboard:
+   Skin:
+   这两个都勾上，有实体按键,有皮肤。
+   front camera 前摄像头
+   back Camera  emulated 模拟摄像头（可以用到一些方法），webcam0机器上的真实摄像头。
+   Memory options:RAM:内存运行(可以不用改) VM HEAP 堆内存，每个应用最大占用大小。一般内存存贮空间多大就能装多大东西android不是的它有个规定值就是这个。主流128 
+   这里的单位是M
+   Internal Storage:这个是自带的存储空间，内部存储空间,这个必须写
+   SD Card 可有可没有，写就有不写就没有.这个可以不写
+   Android 可以没有SD卡但是一定有内部存储空间
+   Emulation options:  snapshot 快照(类似休眠)不要就不选了  use Host GPU(如果模拟器很慢考虑用这个，使用硬件的GPU 也容易有BUG 最好也不选)
+
+start 启动模拟器
+wipe user data 恢复出厂设置
+Scale display to real size 缩放显示 控制 monitor dpi 来控制缩放比例
+    启动的时候有HAX is working and emulator runs is fast virt mode 是加速模式
+    分辨率越大启动的越慢
+    大屏幕只是用来测试不同屏幕的兼容性的。
+    系统版本低运行速度快，但是高版本和低版本的代码部分是有却别的。
+    两个模拟器互相打电话发短信
+    自带的模拟器上面有个编号比如5556 5554 等直接拨这个就行
+   
+
+创建一个android 的项目
+    Application Name 应用名字
+    Project Name 项目名字
+    Package Name 包名
+    Mininum Required Sdk 最小运行SDK的运行版本（游戏 4.0 应用可以使用2.3）。
+    剩下三个默认
+    1.当前运行在哪个版本上
+    2.编译用哪个版本最新的
+    3.样式主题
+    next
+    创建一个自定义图标
+    启动程序后，界面就是activeity(点上系统自定义创建一个)
+    项目是否是作为一个jar包，给别人用，否则不要勾上。
+    保存路径
+    next
+    创建图标
+    有个browse选择一个就可以
+    next
+    系统给你创建的activeity选个
+Application Name Project Name 名字一样就可以
+Project Name 在项目中标示
+Application Name 是在标题栏中的名字，应用在模拟器上运行启动以后在标题栏上的名字，和图标下面的那个名字。
+
+
+Genymontion 启动起来了就可以直接在 android studio 里面点击run as 不用非带发布出来测试
+android studio 的 android Device monitor 可以查看在线的设备
+eclipse window 里找一个device就可以
+
+项目运行在模拟器里面查看日志是用logCat
+
+
+笔记软件markdownpad
+================================================项目的目录结构
+src:项目的java带代码都放在这里，例如自定义的类等等。
+    如果创建项目的时候有Activity话，在src下面会有一个MainActivity.java, 其实这个activity 就是java类。
+
+gen:下的BuildConfig.java（自动生成的）是配置性的东西不要改 debug = true 可以调试 false不可以调试
+    R.java 自动生成的不要改 都是些资源ID
+
+android 系统核心：下面是android的jar包。一些类都依赖于它（这个是编译版本所决定的，在建项目的时候让你选过一个编译版本）中途要改的话 右键项目名字properties-> android, 导入别人的项目先看看是不是导入了jar包
+
+Android Dependencies:这个是低版本用高版本特性的时候的jar包，制式包。它的真实位置是在libs里面
+
+assets 资源文件夹这个和R.java没有关系，这里存放的是视频音乐等较大的file.通过IO流来读取
+
+bin 打包编译后的内容放到这，里面是一些dex和apk，其实是先打包成apk在往模拟器里面装。
+
+res 存放资源的图片一类的往这放。和assets区别 assets是存放较大内容的，assets 是没有资源Id的而在res 里面的内容是有资源ID。在res里面的内容通过资源Id就可以读取不需要使用io流。这里面有大把的XML里面都在这。
+drawable-hdpi
+    保存图片的它的资源ID在R.java里面，如何对比的找到资源ID
+    打开R.java 对应文件夹名字前半部分找到这个类，里面的变量名字对应文件名字。
+    如果往里面扔新的图片会在这个R.java里面插入新的资源ID
+    因为资源会写入到R文件所以一定注意文件的名字。
+    后缀名字不同文件也不能相同。
+drawable-ldpi
+drawable-mdpi
+drawable-xhdpi
+drawable-xxhdpi
+这些都是做屏幕适配的，他们的里面的图片根据不同屏幕会有不同尺寸的图片
+==让美工准备几套图片
+如果不考虑屏幕适配，放到哪个文件夹都没有问题，默认放到hdpi里面吧
+学习业务逻辑就放一个行了。
+
+layout 是布局，下面xml文件就是布局文件,android 是用xml文件作为布局文件的。
+       打开以后可以预览，这里面内容和模拟器的预览是一样，但是我们模拟器运行的是active中的java文件为什么和这个一样Ok打开MainActivity.java发现有这么一句话，setContentView(R.layout.activity_main)这个是设置显示内容的，这里要传布局文件的资源ID，这个资源ID在R文件中而R文件中的关联的是layout中的那个配置文件。默认的active文件是一片空白的如果要让其显示就要让其设置使用哪个布局文件。onCreate 是在active创建的时候自动调用。点击应用图标的时候系统会自动调用active active创建的时候就调用了布局xml。
+
+menu 配置文件夹，菜单对菜单配置点击模拟器上的menu会弹出来这个东西。
+
+values (values R.java没有这个内部类)
+    dimens.xml 定义长度的资源ID的数字+dp android中的单位类似像素那么个意思。
+    dp 和 px的区别 dp是动态根据分辨率来的，android是可以用px的。
+    320*480 20dp就是20px
+    720*1280 20dp 肯能是40px
+    strings.xml（配置字符串资源的，用来定义字符串资源的）国际化用
+        有三子节点
+        1.定义字符串节点，而每一个字符串节点都有一个name这个name就是资源id
+在R.java里面有一个string内部类，这里面放着都是name的名字。当你想string.xml添加内容的时候它会根据你设置的name自动R.java里面写入配置。
+    styles.xml
+    定义样式和主题的
+values多个就是多个屏幕适配，和draw一样的事情。
+而且如果要定义多语言就一定有多个values每个下面都有一个strings
+values-it
+      -en
+      -zh 等等
+
+AndroidManifest.xml 很重要的配置文件.
+    1.根节点
+        <mainfest ...... package="包就是创建项目时候的那个包"
+        项目的那个报名是项目而这个是应用的名字（两者没有关系），应用的唯一识别ID，就是在系统里面的ID不能有重复的ID存在，低版本的当然就被高版本覆盖掉，包名相同就覆盖掉。（应用包名和代码报名可以不同在不同的时候需要在代码包名的那个地方引入应用的包）
+        android:versionCode="1" 版本号高版本覆盖低版本系统通过比对versionCode谁大谁就高版本（机器人看的）。
+        
+        android:versionName="1.0"> 版本名字这个是给人看的
+
+<uses-sdk
+    android:minSdkVersion="10"          最低支持android版本
+    android:targetSdkVersion="17" />    没任何意义的不用改了
+
+<application
+    ###这块是在列表里面显示用的
+    android:allowBackup="true"  
+    android:icon="@draw/ic_launcher" 图标应用的图标，就是在系统桌面上显示的那个图标
+    android:label="@string/app_name" 这里的这个应用名字是系统download列表里面的那个应用名字，而系统桌面的那个在哪改？下面说明
+    android:theme="@style/AppTheme" 主题 >
+
+>
+
+<activity
+    ##这一组是在桌面上显示的时候的内容，如果没有设置继承自application
+    android:name="包名.MainActivity"
+    android:label="@string/app_name" 这个地方改的才是图标在桌面上显示的名字。
+    android:icon="@drawable/photo2"  
+    >
+    <intent-filter>
+        #决定安卓应用的入口这里是写死的
+        <action android:name="不加com的包名.action.MAIN" />
+        <category android:name="不加com的包名.category.LAUNCHER" />
+    </intent-filter>
+    ###哪个activity标签有这个标签哪个就是入口
+</activity> 应用可能存在多个activity标签哪个有intent-filter哪个就是入口，如果没有intent-filter就没有办法进入的，桌面上也不会有应用图标的。
+
+
+
+
+project.properties
+    target=android-18 这个决定编译的版本。这个不能乱改的
+修改的两种方式1右键项目然后properties->选择就行 2 直接改这来。
+
+
+
+项目部署
+程序打包的过程
+当你run->先将整个项目编译然后在打包打包成APK{1 .dex 2 resources.arsc 3 资源的索引 未编译的资源（安卓里面所有的资源直接打包进来了没有编译）  4 清单file.xml}
+->签名(版权保护)->正式安装
+AndroidManifest 里面package防止别的公司恶意将其修改的和你一样把你的覆盖掉，采用一个签名，系统在确认是否要覆盖之前除了查看package之外还会去确认签名是否相同，这个签名是商业机密。这个没有办法知道。但是包名是可以知道的，当你在虚拟机上运行别人的apk你安装后运行可以在logCat里面获取到应用包名
+例如com.itheima.hello/.MainActivity 这里就告诉你，运行的包和哪个Activity。
+如果同包名，签名不同，低版本覆盖高版本都会报错的。
+
+项目在部署的时候会产生一些Console内容，apk装到手机后会自动的删除apk的，安卓中的安装时不能选择安装路径的。
+安卓系统的目录结构 windows->show view->other->android->File Explorer
+应用装到 /data/app/这里来了第三方应用可以随便删除。
+系统级别的应用安装到了/system/app/ 这里没有root权限是没有办法删除的。	
+/data/data/系统中所有应用都会在这里生成一个对应的文件夹不关是否系统级的。这个文件夹名字就是包名，这个作用就是在程序运行时所产生的一些临时文件.系统为每一个应用产生的一个专属文件夹。这里不能跨文件夹访问资源的。
+
+****在res里面的引用的时候都需要资源ID。
+****引用的时候分为两种情况
+1.在JAVA代码里面引用采用R.内部类.资源ID
+2.在xml里面引用采用@内部类名字/alt+? 就会提示选个
+
+
+
+
+
+
+
+兼容的话做到2.3+以上
+
+
+翻墙
+无界限浏览器
+自由门
