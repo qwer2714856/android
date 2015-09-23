@@ -277,9 +277,31 @@ AndroidManifest ÀïÃæpackage·ÀÖ¹±ðµÄ¹«Ë¾¶ñÒâ½«ÆäÐÞ¸ÄµÄºÍÄãÒ»Ñù°ÑÄãµÄ¸²¸Çµô£¬²ÉÓÃÒ
 2.ÔÚxmlÀïÃæÒýÓÃ²ÉÓÃ@ÄÚ²¿ÀàÃû×Ö/alt+? ¾Í»áÌáÊ¾Ñ¡¸ö
 
 
+Android Ò»¸ö±È½ÏÖØÒªµÄ¹¤¾ß
+###DDMS
+Dalvik debug monitor service	
+DeviceÀïÃæÏÔÊ¾µÄËùÓÐºÍÄãeclipse »òÕßÊÇ android studio Á´½ÓµÄÉè±¸
+Éè±¸ÏÂÃæÁÐ³öµÄÊÇËùÓÐÔËÐÐÔÚÄãÊÖ»úÉÏµÄ½ø³Ì£¬Ãû×ÖÊÇÓ¦ÓÃ°üÃû
+¿ÉÒÔÑ¡Ôñ½ø³ÌÈ»ºóµã»÷stop ¹Ø±ÕËü¡£¹Ø¼üµÄÄÇÐ©½ø³ÌÊÇ¹Ø²»µôµÄ£¬ÀýÈç×ÀÃæ½ø³Ì£¬com.android.launcher Èç¹û¹Ø±Õ»á×Ô¶¯ÔÚÆðÀ´¡£PID»á²»Í¬¹Øµô¾ÍÆðÀ´¡£
+
+Telephony status
+speedÊÇ¿ØÖÆÍøËÙµÄ£¬Õâ¸ö±ÈÈçÔÚ×öÒ»Ð©ÍøÂçÓ¦ÓÃÐèÒªÔÚ±È½Ï¿¨µÄÇé¿öÊ¹ÓÃ¡£
+Incoming number: Ãû³Æ
+SMS ÏûÏ¢Ö÷Ìå£¬¾Í»áÍùÄãµÄÉè±¸·¢ËÍÒ»ÌõÏûÏ¢µ«ÊÇ²»¿ÉÒÔ·¢ËÍÖÐÎÄ,Ò²²»¿ÉÒÔ½ÓÊÕÏûÏ¢¡£
+²âÊÔ¶ÌÐÅÏà¹ØµÄ¹¦ÄÜ
+Ñ¡Ôñ VoiceÊÇÍ¨»°£¬µ«ÊÇÒ»´òÍêµç»°¾ÍÖÐ¶ÏÉè±¸ÁËÕâ¸öÊ±ºò£¬DevicesÄÇÐÐÉÏÓÐ¸öµ¹Èý½Çµã»÷ÓÐ¸öreset adbÖØÆôÏÂ 
 
 
 
+
+
+
+
+
+
+
+ADTµÄÏÂÔØ
+http://www.cnblogs.com/tc310/p/3938353.html
 
 
 ¼æÈÝµÄ»°×öµ½2.3+ÒÔÉÏ
