@@ -414,6 +414,111 @@ public class MainActivity extends Activity {
 AndroidManifest.xml添加（双击）选择permission add->uses permission->在下拉框中选择即可
 在配置file中会自动添加<uses-permission android:name="android.permission.CALL_PHONE"/>
 
+Android 事件
+定义事件的三种情况
+第一种
+内部类
+//这里的这个匿名内部类必须已经定义过这里相当于重写定义好的类且实例化
+bt1.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+        	 
+        });
+或者在activity类里面定义一个内部类，然后实现监听接口，在在set...Listener(new 自定义内部类（实现接口的自定义内部类）)
+
+第二种
+使用this 但是activity类需要实现onclicklistener这个接口
+
+第三种 *** 一般采用这种
+<Button 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="three"
+        android:id="@+id/three"
+        android:onClick="定义函数名例如aa"
+        />
+go to MainActivity.jar
+在MainActivity类里面添加方法 public void aa(View v){
+
+}
+//注意这里必须这么写
+
+
+
+
+
+
+//短信发送
+android:lines="5" 可以调高EditText的高度
+andorid:hint="这是提示"  是提示的意思
+android:gravity="top"  文本框内容对齐方式
+android:inputType="text" 设置表单的类型
+它的这些是有限定的如果是android:inputType="number" 那么这个地方除了数字什么也输入不进去。 
+
+
+
+
+//真实手机里面输入*#*#4636#*#* 会自动弹出来一个手机的信息
+
+发短信也需要一个权限和电话一样老套路加一个全新到清单配置file中
+查看LogCat的时候如果保存找自己的写的代码谷歌错误是因为你的错了
+
+LogCat 如果多开模拟器一时段只能显示一个模拟器的信息，这个时候很简单找到device 双击某个设备 这个时候就能看到你双击这个设备的LOGCAT
+
+
+public class MainActivity extends Activity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);   
+    }
+    
+    
+    
+    //这里不用intent 采用一种别的方式来实现，电话是因为访问不到api所以采用意图对象，然而短信是可以访问api所以就不用意图对象了。
+    //采用事件的第三种模式
+    public void sendMessage(View e){
+    	//phone number
+        EditText phoneNum = (EditText) findViewById(R.id.num);
+        //message
+        EditText message = (EditText) findViewById(R.id.message);
+        //消息的获取
+        String phoneNumStr = phoneNum.getText().toString();
+        String messageStr = message.getText().toString();
+        //发送短信
+        SmsManager sm = SmsManager.getDefault();
+        //发短信
+        //对方号码  短信服务中心地址（真机 SMSC 在 *#*#4636#*#* 弹出菜单看也不指定 一般不指定，特殊情况需要指定，这个东西的意思就是比如北京给北京的短信服务中心那么来青岛就发不了了，这个一般自动获取null就行）短信的内容
+        //sentIntent 是广播发送后，会有成功或失败的状态码，因为现在没学广播所以传个null就行
+        //deliveryIntent 这也是个广播,你的消息被对方成功接收后的一个广播
+        //sm.sendTextMessage(phoneNumStr, null, messageStr, null, null);
+        
+        
+        //如果短信很长运行商默认只给了70个字符所以大字符串发不出去
+        //这个时候可以考虑拆分字符分别发送
+        //第二步开始拆分字符串 这个不用我们自己拆有现成的方法用
+        ArrayList <String> list = sm.divideMessage(messageStr);
+        for(String name : list){
+        	sm.sendTextMessage(phoneNumStr, null, name, null, null);
+        }
+    }
+}
+
+
+//for 循环 集合类的另种写法
+for(String name : list){
+        	sm.sendTextMessage(phoneNumStr, null, name, null, null);
+        }
+
+
+//过滤器的概念 LogCat 
+saved filters 会有不同的过滤器，如果查看所有的就all message
+
 
 
 在android 中所有的布局标签都是VIEW 的子类
