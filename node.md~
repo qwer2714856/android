@@ -470,6 +470,46 @@ android:inputType="text" 设置表单的类型
 LogCat 如果多开模拟器一时段只能显示一个模拟器的信息，这个时候很简单找到device 双击某个设备 这个时候就能看到你双击这个设备的LOGCAT
 
 
+public class MainActivity extends Activity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);   
+    }
+    
+    
+    
+    //这里不用intent 采用一种别的方式来实现，电话是因为访问不到api所以采用意图对象，然而短信是可以访问api所以就不用意图对象了。
+    //采用事件的第三种模式
+    public void sendMessage(View e){
+    	//phone number
+        EditText phoneNum = (EditText) findViewById(R.id.num);
+        //message
+        EditText message = (EditText) findViewById(R.id.message);
+        //消息的获取
+        String phoneNumStr = phoneNum.getText().toString();
+        String messageStr = message.getText().toString();
+        //发送短信
+        SmsManager sm = SmsManager.getDefault();
+        //发短信
+        //对方号码  短信服务中心地址（真机 SMSC 在 *#*#4636#*#* 弹出菜单看也不指定 一般不指定，特殊情况需要指定，这个东西的意思就是比如北京给北京的短信服务中心那么来青岛就发不了了，这个一般自动获取null就行）短信的内容
+        //sentIntent 是广播发送后，会有成功或失败的状态码，因为现在没学广播所以传个null就行
+        //deliveryIntent 这也是个广播,你的消息被对方成功接收后的一个广播
+        //sm.sendTextMessage(phoneNumStr, null, messageStr, null, null);
+        
+        
+        //如果短信很长运行商默认只给了70个字符所以大字符串发不出去
+        //这个时候可以考虑拆分字符分别发送
+        //第二步开始拆分字符串 这个不用我们自己拆有现成的方法用
+        ArrayList <String> list = sm.divideMessage(messageStr);
+        for(String name : list){
+        	sm.sendTextMessage(phoneNumStr, null, name, null, null);
+        }
+    }
+}
+
+
 //for 循环 集合类的另种写法
 for(String name : list){
         	sm.sendTextMessage(phoneNumStr, null, name, null, null);
@@ -478,6 +518,86 @@ for(String name : list){
 
 //过滤器的概念 LogCat 
 saved filters 会有不同的过滤器，如果查看所有的就all message
+
+
+
+
+事件中的View e 解释
+public class MainActivity extends Activity implements OnClickListener {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Button bt = (Button) findViewById(R.id.bt);
+        //bt.setOnClickListener(new MyClass());
+        /*bt.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				System.out.println("2");
+			}
+        	
+        
+        });*/
+        //bt.setOnClickListener(this);
+        
+    }  
+    class MyClass implements OnClickListener{
+
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			System.out.println("~~");
+		}
+    	
+    }
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		System.out.println(3);
+	}
+	
+	public void four(View v){
+		System.out.println(4);
+	}
+	/**
+	 * View详解
+	 * 三个按钮的指向都指过来了，如果区分，使用View v来区分。
+	 * View对象是系统传进来的，系统会把触发这个方法的那个组件作为View对象传进来。
+	 * @param v
+	 */
+	public void five(View v){
+		//通过对view对象的判断就可以知道用户点击的到底是哪一个对象。
+		//v.getId();//使用getId来获取指向这个方法的那些按钮的 哪一个id的按钮。
+		switch(v.getId()){
+			case R.id.five_1:System.out.println("hi");;break;
+			case R.id.five_2:System.out.println("hi2");;break;
+		}
+	}
+}
+
+
+<!-- 多个Button的click可以指向一个函数 -->
+    <Button 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="five"
+        android:id="@+id/five_1"
+        android:onClick="five"
+        />
+    <Button 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="five"
+        android:id="@+id/five_2"
+        android:onClick="five"
+        />
+
+
+
+
 
 
 
