@@ -614,11 +614,142 @@ public class MainActivity extends Activity implements OnClickListener {
 线性布局(不会出现重叠)
 这个只要将跟节点改为LinearLayout就可以了
 如果还想竖向排列就根节点在里面加一个android:orientation="vertical"
+Android 的集中布局
+LinearLayout(线性布局)
+FrameLayout(帧布局)
+RelativeLayout(相对布局)
+TableLyout(表格布局)
+AbsoluteLayout(绝对布局)
+这些名词并不是官方的翻译，是业界都这么叫。
+1.linearLayout的一些特性
+  1.默认是水平排列
+  2.线性布局中他们彼此之间是不可能重叠的。
+  3.在LinearLayout这个根节点上加入android:orientation="vertical"
+    这个属性就带表垂直排列。
+  4.默认组件左对齐 
+  5.组件的属性例如TextView 这个组件 android:gravity 这个是控制组件
+    内容的对齐方式，而android_layout_gravity这个是控制组件的对齐方式，center是竖直水平都居中，组件的对齐方式是相对屏幕讲的。内容的对齐是相对于组件。
+  6.在竖直布局下(android:orientation="vertical")，左对齐、右对齐、水平居中生效
+  7.水平布局下(android:orientation="horizontal")， 底部对齐、垂直居中对齐、顶部对齐 生效  
+  8.关于6 7 记住两个点横向布局 纵向的生效，纵向布局横向的生效，这个线性布局的一个特点。
+  9.在水平布局下，当有一个组件十分的长后面的组件可能会被顶到屏幕外边去。
+  10.水平布局组件平分当前的屏幕，需要给每一个组件加入一个权重的属性，android:layout_weight="1" 。
+  权重的作用是将屏幕按比例分配！剩余！宽度或者高度 例如讲 三个组件他们的权重是 1 1 1也就是总权重是三一人一份，如果是 1 2 3 那么将屏幕分成6分 第一个占1 第二个占2 第三个占3
+   注意是剩余的大小按照比例分配已经占用的就占了。
+  10.谷歌推荐在使用权重的时候搭配0dp来使用，这样会出现等比例分配的情况。
+案例嵌套布局
+  <!-- 使用google定义好的颜色 -->
+  android:background="@android:color/background_light" 
+  @android:color/holo_green_dark 将光标放到这个上面然后ctrl + 左键就可以看到相应的定义
+  在layout 下的xml在预览模式的时候 上面第一个手机图标是可以选择分辨率的。
+
+案例源代码
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.linearylayout.MainActivity" >
+
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        >
+        <TextView 
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#000000"
+            />
+        
+        <TextView 
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#ff0000"
+            />
+        
+        
+        <TextView 
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#cccccc"
+            />
+        
+         
+        
+        
+        <TextView 
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#f5f5f5"
+            />
+        
+    </LinearLayout>
+     
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        >
+        
+        <TextView 
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+             android:background="#000000"
+            />
+        <TextView 
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+             android:background="#f00000"
+            />
+        <TextView 
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+             android:background="#cccccc"
+            />
+        <TextView 
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+             android:background="@android:color/holo_green_dark" 
+            />
+        
+    </LinearLayout>
+     
+
+</LinearLayout>
 
 
 
 
 
+
+
+===
+所有的布局是可以嵌套的例如
+linearLayout
+    linearLayout
+===
+
+
+Android中的推荐单位（当然px也是可以用的不推荐用）
+dp 这个是长度单位
+sp 这个是字体大小的单位
+
+*******************************
+一些注意
+Android是不能有两个相同的属性的，如果需要一个属性有多个值可以用|分隔
+例如
+android:layout_gravity="center_horizontal|bottom"
 
 
 
