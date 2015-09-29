@@ -728,16 +728,156 @@ AbsoluteLayout(绝对布局)
 
 </LinearLayout>
 
+！！！总结重要特性
+1.有一个布局方向 水平或者竖直
+2.在竖直布局下，左对齐、右对齐、水平居中生效。
+3.在水平布局下，顶部对齐，底部对齐，竖直居中生效。
+4.权重：按比例分配屏幕的剩余宽度或者高度。
 
 
+2.RelativeLayout(相对布局)
+  1.相对布局没有权重
+  2.相对布局没有方向（只有线性布局才有方向 方向说的是android:orientation="vertical"）
+  3.默认是会产生叠加的，默认的组件方向是左对齐和顶部对齐 没有 layout_gravity。
+  4.这里的方向是使用 android:layout_alignParentRight="true" 相对父元素的右边对齐。相对的纵向和横向是都可以对齐的，而线性布局是不可以的。
+  底部对齐 android:layout_alignParentBottom="true"
+  5.可以同时写对齐方式 例如：
+    android:layout_alignParentRight="true"
+    android:layout_alignParentBottom="true"
+
+    android:layout_centerInParent="true" 相对父辈水平垂直居中
+    android:layout_centerHorizontal="true" 相对父辈水平居中
+    android:layout_centerVertical="true" 相对父辈垂直居中
+
+  6.注意是相对于父元素而非屏幕
+  7.对齐其他组件的位置，但是必须其它组件要设置id.
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="aaa1"
+        android:id="@+id/tv1"
+        android:layout_toRightOf="@id/tv0"  当前这个组件要出现在id是tv1组件的右边。
+        />
+  
+
+      相对位置 tv0 如果tv0 位于顶端。位于左上都会看不见因为出去了。
+     <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="aaa0"
+        android:id="@+id/tv0"
+        />
+    
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="aaa1"
+        android:id="@+id/tv1"
+        android:layout_toRightOf="@id/tv0"
+        />
+    
+    
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="aaa11"
+        android:id="@+id/tv11"
+        android:layout_above="@id/tv0"
+        />
+    
+    
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="aaa12"
+        android:id="@+id/tv12"
+        android:layout_below="@id/tv0"
+        />
+    
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="aaa13"
+        android:id="@+id/tv13"
+        android:layout_toRightOf="@id/tv0"
+        />
+    
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="aaa14"
+        android:id="@+id/tv14"
+        android:layout_toLeftOf="@id/tv0"
+        />
+       
+        这个属性可以写多个
+        android:layout_toRightOf="@id/tv0"
+        <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="aaa12"
+        android:id="@+id/tv12"
+        android:layout_toRightOf="@id/tv0" 位于第0个右边
+        android:layout_above="@id/tv1" 位于第一个的上面 
+        />
+
+        android:layout_alignLeft="这里可以写和哪一个组件对齐" 例如：
+        <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="aaa12"
+        android:id="@+id/tv12"
+        android:layout_below="@id/tv0"     位于tv0上方
+        android:layout_alignLeft="@id/tv0" 和tv0左对齐
+        />
+        相对布局的宽度可以相对另一个组件的宽度
+        例如相对于tv0 的 tv1        
+        tv1 可以这么设置
+        android:layout_above="@id/tv0"
+        android:layout_alignLeft="@id/tv0"
+        android:layout_alignRight="@id/tv0"
+        这样同时设置alignLeft 和  alignRight 就可以保证拉伸的和tv0一样。
+
+        
 
 
+!!!总结!!!
+组件默认位置顶部和左上角，组件之间是可以重叠的
+可以相对父元素上下左右对齐，相对于父元素，水平居中、竖直居中、水平竖直居中
+可以相对其他组件上下左右对齐
+可以布局其他组件的上方下方右边和左边
 
+对于父元素使用 alignParent 和 
+        
+ android:layout_centerInParent="true" 相对父辈水平垂直居中
+    android:layout_centerHorizontal="true" 相对父辈水平居中
+    android:layout_centerVertical="true" 相对父辈垂直居
+
+相对于组件位置使用 只是相对组件ID
+layout_above
+layout_below
+layout_toLeftOf toRightOf
+相对组件对齐使用 值是相对组件的id
+layout_alignLeft
+layout_alignRight
+layout_alignBottom Top
+
+android:layout_toRightOf="@id/a5"
+android:layout_alignParentRight="true"
+当这么设置的时候按钮会被拉伸 因为位于a5右边而且又要对齐父辈右边所以拉伸了。
 
 ===
 所有的布局是可以嵌套的例如
 linearLayout
     linearLayout
+最常用的布局 线性布局、相对布局
+
+可以在layout目录下创建多个布局file，到时候改改入口就可以 setContentView(R.layout.activity_main) 在layout下面建立file会被自动加入到R file在入口直接引用就可以变; 。
+
+
+
+@+id 是定义id
+@id  是引用id
 ===
 
 
