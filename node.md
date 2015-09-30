@@ -866,6 +866,104 @@ android:layout_toRightOf="@id/a5"
 android:layout_alignParentRight="true"
 当这么设置的时候按钮会被拉伸 因为位于a5右边而且又要对齐父辈右边所以拉伸了。
 
+
+帧布局
+这个只是在特定的情况下才能用到。有些特定情况必须用才用的到。
+1.也是全部重叠在一起，相对布局的那些帧布局用不了
+2.默认左对齐顶部对齐，和相对布局是一样的。
+3.它设置对齐方式和线性布局一样 android:layout:gravity="right" 但是它没有线性布局那个框框，横向只能使用 左、右、居中 它全部可以用。
+android:layout_gravity="right|bottom" 右对齐和底部对齐可以同时生效 
+<TextView
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        android:background="#f00000"
+        android:layout_gravity="center"
+        />
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="#cccccc"
+        android:layout_gravity="center"
+        />
+    <TextView
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:background="#eeeeee"
+        android:layout_gravity="center"
+        />
+    <TextView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:background="#000000"
+        android:layout_gravity="center"
+        />
+	<TextView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="#eeeeee"
+        android:layout_gravity="center"
+        />
+	
+	<TextView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="#ffffff"
+        android:layout_gravity="center"
+        />
+
+所有的矩形居中然后叠加就可以显示。
+
+
+
+表格布局 TableLayout 专门用来画表格的。
+1.<TableRow></TableRow> 画行的
+2.<TableRow>
+这里有几个组件就有几列
+</TableRow>
+3.在做平分单元格的时候可以使用android:layout_weight
+<TextView 
+            android:layout_weight="1"
+            android:text="1"
+            />
+        <TextView 
+            android:layout_weight="1"
+            android:text="2"
+            />
+        <TextView 
+            android:layout_weight="1"
+            android:text="3"
+            />
+4.TableLayout是唯一一个可以不定义宽高的布局的，因为定义了也没有用，定义了是没效的，也就说
+<TableLayout>
+<TableRow> 不设置宽高也没问题默认是 水平匹配父元素，高度包裹
+<TextView android:text="aaa" />是没有问题的没有指定宽高。不设置默认横向纵向都是包裹。
+</TableRow>
+</TableLayout>
+5.TableLayout 的属性android:stretchColumns="" 这个是设置拉伸列的这里写0是拉伸第0列，写1是拉伸第1列
+6.分割线可以直接嵌在TableRow 下面
+宽度是匹配父元素，而不是包裹了，因为直接写在了TableLayout 下面。写在TableRow里的是包裹宽度和高度
+<TextView 
+        android:layout_height="1dp"
+        android:background="#000000"
+        
+        />
+这个设置宽度没用高度有用
+7.对齐方式使用android:grayity="right"
+8.修改列的索引值  android:layout_column="1" 这个比较贱不能用提示死记。这样就不必去写那个空的android:text=" "的那一列了。
+<TextView android:text="open" android:layout_column="1"/>
+9.让当前列占用两列这个也没有提示。android:layout_span="2"
+
+总结
+1.TableRow 是行，子节点是一列
+2.TableLayout的一级子节点默认宽都是和父节点一样宽
+3.TableRow 子节点宽高都是包裹宽高所以可以不写。
+
+
+绝对布局 AbsoluteLayout 上镜率很低，手机开发百分之一万年不会用到它。
+1.它有一个android:layout_x android:layout_y 表示控件在哪个位置。
+2.可以在预览的界面上拖拽控件，他的屏幕适配根本是没有办法做的。于是乎在软件开发是根本用不到的，电视的屏幕可以，因为分辨较少。	
+
+
 ===
 所有的布局是可以嵌套的例如
 linearLayout
