@@ -989,13 +989,45 @@ Android是不能有两个相同的属性的，如果需要一个属性有多个值可以用|分隔
 例如
 android:layout_gravity="center_horizontal|bottom"
 
+===============
+logcat 输出
+===============
+手机的调试输出的控制台。
+1.控制输出的等级level
+  在控制台上有个选项卡里面可以选择出处的等级
+  verbose 冗余，最低级的logcat的信息               全部可以见
+  debug   调试信息 Level D                         可以看到D I W E信息
+  info    正常等级的信息，普通信息 Level I         可以看到I W E 信息
+  warn    警告     Level W                         可以看到警告和错误信息
+  error   错误信息 Level E                         只能看到错误信息
+  assert  断言（这个不是等级）
+仅仅靠这几个信息调试还是不够的可以使用，search 功能
+直接搜关键字例如system.out.println("keyword") 直接搜keyword 这个搜索的是Text字段
 
+主控制台上有很多字段
+Level Time PID TID Application（应用包名，这个有时候会是空这是个BUG） Tag（用的最多，标签方便过滤信息的） Text 
+可以使用过滤器过滤
+左边的菜单栏点击+
+Filter Name:  过滤name
+通过下面不同字段过滤
+by Log Tag   System.out 可以找到自己的输出
+by Log Message
+by PID
+by Application Name
+by Log Level
 
+创建完毕后就出现过滤TAG然后选择就行，默认项目自带一个过滤器。
 
+System.out.println的level默认的级别是改不了的就是info的级别
 
-
-
-
+想打印别的等级的可以使用
+//打印出来的是error级别的信息
+Log.e("Tag字段的值" , "自定义信息")
+Log.w(和上面一样)
+log.i()
+log.d()
+log.v()
+过滤的时候用Tag来过滤
 
 
 question
