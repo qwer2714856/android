@@ -1030,9 +1030,64 @@ log.v()
 过滤的时候用Tag来过滤
 
 =====================
+!!!!!!!!!!!!!!!!
 内部存储中写file
+!!!!!!!!!!!!!!!!
 =====================
+1.安卓的存储空间，存储结构
+  所有安卓都有两个存储空间 内部存储空间（自己的带的存储空间，这个是必须有的 
+  RAM内存：运行的内存，相当于电脑的内存，ROM内存：存储内存（这个内部存储就是ROM），相当于电脑硬盘）
+  和外部存储空间（SD卡可有可以没有，当相遇电脑的移动硬盘）
+现在买的手机没有SD卡的直接告诉你你32G 16G其实这个是外部空间，而真正的内部空间是没有告诉你的。
+到底存在哪是看需求的。
 
+2.先搞内部存储
+==在File Explorer 里面 可以看到安卓的file目录内部存贮在 /data/data/下面一大堆包是系统为每个应用提供的写到相应的应用里面
+如果想看写入的file双击没用点击右上角的导出。
+public void login(View v){
+	  EditText et_username =  (EditText) findViewById(R.id.username);
+	  EditText et_password =  (EditText) findViewById(R.id.password);
+	  
+	  CheckBox cb_ck = (CheckBox) findViewById(R.id.ck);
+	  
+	  String userName = et_username.getText().toString();
+	  String password = et_password.getText().toString();
+	  
+	  if(cb_ck.isChecked()){//勾选了是true
+		  //写到本地文件去 这就是内部存贮空间路径
+		  File file = new File("data/data/com.theadventus.neibucunzhu/info.txt");
+		  FileWriter fw = null;
+		  try {
+			fw = new FileWriter(file);
+			fw.write(userName+"\r\n");
+			fw.write(password+"\r\n");
+		  } catch (IOException e) {
+			// TODO Auto-generated catch block
+			  
+			e.printStackTrace();
+		}finally{
+			try {
+				fw.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+	  }
+	  //吐司对话框弹出对话框API 第一个参数上下文对象 Activity 本身就是一个上下文对象所以传this 第二个参数提示消息内容 第三个参数过几秒消失Toast.LENGTH_LONG 5秒 Toast.LENGTH_SHORT 3秒 只能给这两个值不能有其它值
+	  //这是创建还没有显示 所以要在后面show出来 Toast.LENGTH_SHORT 0 Toast.LENGTH_LONG 1可以直接传数字
+	  //如果ctrl+鼠标左键没法看源码关联一下就可以去sdk下面的source关联一个版本就行
+	  Toast.makeText(this, "提示消息", Toast.LENGTH_SHORT).show();
+	 
+   }
+换行符号\r\n
+
+
+
+
+
+增加可阅读性，用组件的的名作为前缀例如 EditText 就是et_名字
+EitText et_... = (EditText) findViewById(R.id....)
 
 question
 1.eclipse创建android项目，无法正常预览布局文件
