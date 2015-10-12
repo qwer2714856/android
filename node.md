@@ -1084,6 +1084,24 @@ public void login(View v){
 
 
 
+自带的读取写目录api
+getFileDir()返回写目录
+返回一个File对象，其路径data/data/应用包名/files/ 都存在这个目录下面
+File file = new File(getFilesDir(), null); 1获取写目录，2file name
+getCacheDir()
+目录是data/data/应用包名/cache/
+当手机的存储空间不足的情况cache file夹下的内容就会被清除，所以存在这个目录下的东西可能被删掉。空间足就不删，但是不一定帮着删。所以需要自己写个清除程序。但重要的不要写在cache会被删。
+清除数据，左键按住，会出现一个appinfo 进去clearcache cleardata 清缓存和清数据（包括缓存和数据全删，不可逆向）
+
+
+注意一点写只能写在自己应用下，不能写到别人的否则报没有权限
+小知识点当你在file域中填写内容点击home键，再回来显示的还是你填写的内容，但是点击返回回来就清空了
+BufferedReader ()这里面的可以是字符流也可以是字节流，字节流会转字符流
+在变量上ctrl+1 可以选择第三个可以将变量设置为全局变量。然后在 oncreate方法初始化如果直接拷贝一个项目需要修改manifest.xml的应用报名否则和原来的会发生覆盖，修改Activity R file的引用，修改应用的名字否则还是重名修改values strings app_name
+最后active外边的那个名字也要改掉rename
+
+上下wen对象Context Toast.makeText第一个参数在哪个上下wen显示，2getFilesDir()上下wen对象 包装类的api获取存储路径的 3.按钮需要在上下wen 定义方法。
+上下wen 类是Context Activity是上下wen,这些不同的上下wen，运行得到的结果是不同的。相当于“草”在不同的上下wen得到的意思是不同的
 
 
 增加可阅读性，用组件的的名作为前缀例如 EditText 就是et_名字
