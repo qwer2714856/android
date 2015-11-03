@@ -57,6 +57,7 @@ android 模拟器（Emulator）
   模拟器控制面板：该面板用于模拟器拨打电话，发送短信等，还可以虚拟设置模拟器的位置信息等。（打电话短信这个需要启动多个模拟器emulator后面有个号用这个号就行，不明白就看黑马的那套视频）
   file管理对话框：该对话框默认没有显示出来。可以通过工具条的Device->file Expleorer就可看到它的file系统
   如果eclipse安装了ADT查件默认会集成DDMS的，eclipse右上角有。或者单个打开windows->show view->other就可以。
+  在就是搜索调试信息，过滤调试信息一般用tab过滤
 Android Debug Bridge(ADB)用法
   
   
