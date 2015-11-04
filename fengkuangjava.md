@@ -59,5 +59,55 @@ android 模拟器（Emulator）
   如果eclipse安装了ADT查件默认会集成DDMS的，eclipse右上角有。或者单个打开windows->show view->other就可以。
   在就是搜索调试信息，过滤调试信息一般用tab过滤
 Android Debug Bridge(ADB)用法
-  
-  
+  adb可以实现电脑和虚拟机之间的拷贝，也可以切换到android系统使用linux命令，安装应用apk。在platform-tools里面的一个工具。
+  adb的命令：
+  adb devices 列出当前正在运行的模拟器。
+  电脑与模拟器之间的file相互复制, 
+  adb push d:/abc.txt /sdcard/ 将d:\abc.txt复制到/sdcard/下面去
+  adb pull /sdcard/syz.txt d:/ 将sdcard下的内容复制到d:盘下面
+  shell
+    adb shell 启动android的shell 窗口
+  安装、卸载apk程序
+  打包APK的三个步骤
+    1.通过DX工具对*.class file进行转换。转换后通常得到一个*.dex file
+    2.通过AAPT工具打包所有的资源file,打包后通常得到*.ap_file
+    3.通过apkbuild将12得到的*.dex *.ap_ file打包成apk包
+  adb install -r -s 
+    1.-r 表示重新安装apk
+    2.-s 后面跟的是设备名称例如emulator-5554
+  adb install aaa.apk -r -s emulator-5554
+  卸载apk adb uninstall -k package
+  1.-k 表示只删除应用程序，但保留该程序的数据和缓存目录。
+  注意这里的package是data里面的那个package名字不是应用的名称。
+
+DX编译工具
+  dalvik运行的不是java的二进制file而是运行自己的.dex file, 因此我们需要使用DX将.class file 打包成.dex file
+  DX工具的常见命令格式如下
+  dx --dex [--dump-to=<file>] [--core-library] [<file>.class | <file>.{zip,jar,apk}|<dierctory>]
+  上面的命令中[--dump-to<file>] 指定的是输出.dex  file的路径而--core-library是需要打包的.class .zip .jar file 或者目录
+  dx --dex --dump-to=d:\aa.dex --core-library d:\aaa\bin
+  将aaa目录下的所有二进制file都打包到aa.dex中
+
+AAPT工具
+  当开发android的时候应用可能会用到很多的资源，包括各种的图片音频这个时候我们需发布到一个apk包时就需要将资源打包.ap_
+  相关的指令
+    1.aapt l 列出资源压缩包内的内容。 
+    2.aapt d 查看apk包内的指定内容。
+    3.aapt p 打包生成资源压缩包。
+    4.aapt r 从压缩包中删除指定file。
+    5.aapt a 向压缩包中添加指定file
+    6.aapt v 打印AAPT的版本。
+打包指令
+  aapt -A <附加资源的路径> -S <资源路径> -M <Android应用清单file> -I<额外添加的包> -F 目标file的路径。
+  例如
+  aapt -A assets -S res -M AndroidManifest.xml -I d:\...\...\platforms\android-9\atforms\android-9\android.jar -F bin\res.ap_
+ 上面的指令将当前目录下的assets子目录，res子目录, AndroidManifest.xml file都打包到 bin\res.ap_资源包中。
+
+使用mksdcard管理虚拟的SD卡
+  正如前面在android sdk 和 avd管理中见到，我们可以在创建avd设备时创建一个虚拟sd卡。实际上还可以使用mksdcard命令来创建单独的一个虚拟存储卡。
+  mksdcard 命令如下
+  mksdcard [-l label] <size> <file>
+  上面的命令中<size> 指定虚拟SD卡的大小,<file>指定保存虚拟SD卡的file镜像。
+  mksdcard 64M d:\avd\sdcard.img
+  如果希望模拟器使用虚拟的SD卡，则需要在启动模拟器添加-sdcard <file>选项，其中<file>代表了虚拟SD卡的镜像
+  emulator -avd aaa -sdcard d:\avd\sdcard.img
