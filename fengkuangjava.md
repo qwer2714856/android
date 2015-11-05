@@ -111,3 +111,42 @@ AAPT工具
   mksdcard 64M d:\avd\sdcard.img
   如果希望模拟器使用虚拟的SD卡，则需要在启动模拟器添加-sdcard <file>选项，其中<file>代表了虚拟SD卡的镜像
   emulator -avd aaa -sdcard d:\avd\sdcard.img
+ 
+使用eclipse创建android项目大致分为三个步骤
+  1.创建android项目
+  2.在xml中编写应用的界面
+  3.在java代码中编写业务逻辑
+  ==
+  1=> eclipse->file other or 工具条上的建立android项目
+  2=> 项目的res目录->layout->....xml 这个file在编辑的时候可以所见即所得。
+  3=> src->project.java
+  4=> R file是android的一个资源file里面定义了所有res资源中的引用在java代码通过R
+file里面定义的内容来引用资源
+  布局xml的清单
+  LinearLayout 代表的是线性布局
+  组件TextView 代表的是一个输入框
+  Button普通的类  这里为什大写因为每一个组件都是一个java类
+  android:id 该属性指定了该控件的唯一标识，在java程序中通过findViewById("id")来获取当然这里应该使用的是 R资源这个是自动的当你创建一个ID那么就会自动写入到这个file引用的时候 findViewById(R.id....)。
+  android:layout_width,android:layout_height这两个属性不关什么组件都应该有否则组件是不显示的。
+  android:layout_width android:layout:height 有两个值 fill_parent则说明和父容器的宽度相同 wrap_content说明根据组件的内容决定，当然这里也可设置定值。
+  为什么使用xml编写UI囊其实是为了降低o he性，java代码就负责业务逻辑，xml就来负责UI的实现可以把这个XML当做HTML来书写只不过语法不同
+  项目src下面的那个入口file编写
+  setContentView(R.layout.main) 设置布局file可以算是入口
+  Button bt = (Button) findViewById(R.id.aa);获取button按钮，这里需要强制转一下否则拿不到。
+  bt.setOnClickListener(new OnClickListener(){
+      public void onClick(View e){
+          final TextView tx = (TextView) findViewById(R.id.text);
+	  tx.setText("string"+java.util.Date());
+      }
+  })
+  1.布局该Activity使用main.xml
+  2.获取按钮的id
+  3.监听事件。
+  findViewById()完全可以当作JS的getElementById
+  
+通过ADT 运行android应用
+  1.通过Android SDK 和 AVD管理器 或直接使用emulator来运行avd设备
+  2.邮件项目run as去在模拟器上安装项目。
+
+Android应用结构分系
+  抛开IDE来建立一个项目
