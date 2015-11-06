@@ -187,3 +187,32 @@ Android应用结构分系
   1.每个资源对应着R类的一个内部类，例如布局的layout，字符串的string，以及id等等。
   2.每个具体的资源对应着一个内部的public static final int 类型的Field 例如ID的
   在布局中使用了id 因此在R.id类就包括了这两个Field R.id.定义ID名 由于drawable-xxx 包含了icon.png 因此也就有了R.drawable.图片名字
+
+res目录说明
+  Android 应用的res目录是一个特殊的目录，该目录里存放了全部的资源，包括图片，字符串，颜色，尺寸等等
+  Android 按照约定，将不同的资源放到不同的的目录，这样可以方便让AAPT工具来扫描这些资源，并为它们生成对应的资源清单：R.java
+  在xml中使用资源 @string/app_name
+  有一种例外，@+id/aaa 这个是定义一个ID 而 @id/aaa这个才是引用一个ID
+
+Android 应用的全局清单file AndroidManifest.xml 描述了应用的名称，图表，以及包含的组件等。
+  通常包括如下：
+  1.应用的包名，作为应用的唯一表示
+  2.应用所包含的组件，如Activity Service BroadcastReceiver Content Provider
+  3.应用程序所兼容的最低版本。
+  4.应用程序使用系统所需要的权限声明。
+  5.其他程序访问该程序所需要的权限声明。
+  package 指定包名
+  android:versionCode=1给机器看的判断是否需要更新1-n
+  android:versionName=1.0给我们自己看的版本
+  //这个有两组 application是设置手机列表里面的，而activity才是设置桌面的
+  android:label="@string/app_name" 定义应用的名称
+  android:icon="@drawable/icon" 定义图标
+  <intent-filter>
+      设置该Activeity是入口
+      <action android:name="android.intent.action.MAIN" />
+      指定加载应用时运行该Activity
+      <category android:name="android.intent.category.LAUNCHER" />
+  </intent-filter>
+  这里必须有否则没有入口
+  android:label="@string/app_name" 引用的是/res/value/strings.xml
+  android:icon="@drawable/icon" /res/drawable-l/m/hdpi的图标
