@@ -187,3 +187,76 @@ Android应用结构分系
   1.每个资源对应着R类的一个内部类，例如布局的layout，字符串的string，以及id等等。
   2.每个具体的资源对应着一个内部的public static final int 类型的Field 例如ID的
   在布局中使用了id 因此在R.id类就包括了这两个Field R.id.定义ID名 由于drawable-xxx 包含了icon.png 因此也就有了R.drawable.图片名字
+
+res目录说明
+  Android 应用的res目录是一个特殊的目录，该目录里存放了全部的资源，包括图片，字符串，颜色，尺寸等等
+  Android 按照约定，将不同的资源放到不同的的目录，这样可以方便让AAPT工具来扫描这些资源，并为它们生成对应的资源清单：R.java
+  在xml中使用资源 @string/app_name
+  有一种例外，@+id/aaa 这个是定义一个ID 而 @id/aaa这个才是引用一个ID
+
+Android 应用的全局清单file AndroidManifest.xml 描述了应用的名称，图表，以及包含的组件等。
+  通常包括如下：
+  1.应用的包名，作为应用的唯一表示
+  2.应用所包含的组件，如Activity Service BroadcastReceiver Content Provider
+  3.应用程序所兼容的最低版本。
+  4.应用程序使用系统所需要的权限声明。
+  5.其他程序访问该程序所需要的权限声明。
+  package 指定包名
+  android:versionCode=1给机器看的判断是否需要更新1-n
+  android:versionName=1.0给我们自己看的版本
+  //这个有两组 application是设置手机列表里面的，而activity才是设置桌面的
+  android:label="@string/app_name" 定义应用的名称
+  android:icon="@drawable/icon" 定义图标
+  <intent-filter>
+      设置该Activeity是入口
+      <action android:name="android.intent.action.MAIN" />
+      指定加载应用时运行该Activity
+      <category android:name="android.intent.category.LAUNCHER" />
+  </intent-filter>
+  这里必须有否则没有入口
+  android:label="@string/app_name" 引用的是/res/value/strings.xml
+  android:icon="@drawable/icon" /res/drawable-l/m/hdpi的图标
+
+应用程序的权限说明
+  一个android的应用可能需要权限才能去调用android的系统功能，例如电话，短信。
+  一个android应用也可能被其他应用，因此它也需要声明调用自身所需要的权限。
+  声明应该有的自身权限，可以通过，工具直接添加也可直接写code
+  1.声明该应用即有打电话的权限
+  <uses-permission android:name="android.permission.CALL_PHONE">
+  2.声明调用该应用程序自身需要的权限（别人调用你的）
+  
+Android应用的基本组件介绍
+  Android应用通常是由一个或多个基本组件组成的，前面我们看到的android应用中最常用的组件就是Activity。 事实上android应用还包括Service BroadcastReceiver ContentProvider等组件。
+Activity 和 View
+  Activity 是Android应用中负责与用户交互的组件。 可以把它想象成swing编程中的JFrame控件。不过区别在于JFrame本身可以设置布局管理器，不断向JFrame中添加组件，但Activity只能通过setContentView(View)来显示指定组件。
+  View组件是所有UI控件、容器控件的基类 View组件就是Android应用中用户实实在在看到的部分。但View组件需要放到容器中，或者使用Activity将它显示出来。如果需要通过某个Activity把指定的View显示出来，调用Activity的setContentView()即可。
+  setContentView() 方法可以接收一个View对象作为参数。
+  LinearLayout layout = new LineLayout(this);
+  super.setContentView(layout);
+  LinearLayout 是 ViewGroup 的子类，ViewGroup 又是 View的子类，接着调用Activity的setContentView(layout)把这个布局管理器显示出来。
+  setContentView()方法可以接受一个布局管理器的ID作为参数
+  setContentView(R.layout.main) 设置该Activity显示main.xml 定义的view
+  ----------------------------------------------
+  实际上Activity是window的容器，activity有一个getWindow()的方法，返回该Activity所包含的窗口。如果Activity的setContentView()不设置显示内容就是个空的窗口。
+  Activity 为Android应用提供了可视化用户界面，如果该Android应用需要多个用户界面，那么这个Android应用将包含多个Activity，多个Activity组成Activity栈，当前活动的Activity位于栈定。
+  Activity包含了一个setTheme(int resid) 方法来设置其窗口的风格，例如我们希望窗口不显示标题、一对话框的方式来显示，都可以通过该方法实现。
+
+  ----------------------------------------------  
+Service
+  Service与Activity低位是并列的，它是运行在后台的没有用户界面，它是运行提供后台服务或监听其它组件运行状态的，它的声明周期是独立的。
+
+BroadcastReceiver 是Android 代表广播消息接收器。
+  相当于时间源，只不过事件源是对象，BroadcastReceiver监听的事件源是Android应用中的其它组件。
+  使用BroadcastReceiver组件接收广播比较简单，开发者只要实现BroadcastReceiver子类，并重写onReceiver(Context context, Intent intent)方法即可。当其它组件通过sendBroadcast() sendStickyBroadcast() 或者 sendOrderBroadcast()方法发送广播消息时，如果该BrocastReceiver也对该消息感兴趣（通过IntentFilter配置），BroadcastReceiver的onReceiver(Context contex, Intent intent) 方法就会被触发。
+  实现完了还需要注册 注册可以通过在java代码中使用Context.regisReceiver()
+  或者在AndroidManifest.xml 中使用<receiver.../>完成注册
+
+ContentProvider
+  对于Android的应用程序来讲，他们每个应用都有自己的Dalvik的虚拟机，且运行在自己的虚拟机上，如果需要横跨多个应用进行数据传递那么需要使用ContentProvider,需要实现如下抽象方法。
+  insert(Uri,ContentValues) 向ContentProvider 插入数据。
+  delete(Uri,ContentValues) 删除ContentProvider中指定的数据。
+  update(Uri,ContentValues,String, String[])更新ContentProvider中的数据。
+  query(Uri,String[],String,String[],String)查询
+通常与ContentProvider结合使用的是ContentResolve，一个应用程序使用ContentProvider暴漏自己的数据，而另一个应用通过ContentResolver来访问数据。
+
+

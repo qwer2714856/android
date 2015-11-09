@@ -216,3 +216,47 @@ Android Ó¦ÓÃµÄÈ«¾ÖÇåµ¥file AndroidManifest.xml ÃèÊöÁËÓ¦ÓÃµÄÃû³Æ£¬Í¼±í£¬ÒÔ¼°°üº¬µ
   ÕâÀï±ØĞëÓĞ·ñÔòÃ»ÓĞÈë¿Ú
   android:label="@string/app_name" ÒıÓÃµÄÊÇ/res/value/strings.xml
   android:icon="@drawable/icon" /res/drawable-l/m/hdpiµÄÍ¼±ê
+
+Ó¦ÓÃ³ÌĞòµÄÈ¨ÏŞËµÃ÷
+  Ò»¸öandroidµÄÓ¦ÓÃ¿ÉÄÜĞèÒªÈ¨ÏŞ²ÅÄÜÈ¥µ÷ÓÃandroidµÄÏµÍ³¹¦ÄÜ£¬ÀıÈçµç»°£¬¶ÌĞÅ¡£
+  Ò»¸öandroidÓ¦ÓÃÒ²¿ÉÄÜ±»ÆäËûÓ¦ÓÃ£¬Òò´ËËüÒ²ĞèÒªÉùÃ÷µ÷ÓÃ×ÔÉíËùĞèÒªµÄÈ¨ÏŞ¡£
+  ÉùÃ÷Ó¦¸ÃÓĞµÄ×ÔÉíÈ¨ÏŞ£¬¿ÉÒÔÍ¨¹ı£¬¹¤¾ßÖ±½ÓÌí¼ÓÒ²¿ÉÖ±½ÓĞ´code
+  1.ÉùÃ÷¸ÃÓ¦ÓÃ¼´ÓĞ´òµç»°µÄÈ¨ÏŞ
+  <uses-permission android:name="android.permission.CALL_PHONE">
+  2.ÉùÃ÷µ÷ÓÃ¸ÃÓ¦ÓÃ³ÌĞò×ÔÉíĞèÒªµÄÈ¨ÏŞ£¨±ğÈËµ÷ÓÃÄãµÄ£©
+  
+AndroidÓ¦ÓÃµÄ»ù±¾×é¼ş½éÉÜ
+  AndroidÓ¦ÓÃÍ¨³£ÊÇÓÉÒ»¸ö»ò¶à¸ö»ù±¾×é¼ş×é³ÉµÄ£¬Ç°ÃæÎÒÃÇ¿´µ½µÄandroidÓ¦ÓÃÖĞ×î³£ÓÃµÄ×é¼ş¾ÍÊÇActivity¡£ ÊÂÊµÉÏandroidÓ¦ÓÃ»¹°üÀ¨Service BroadcastReceiver ContentProviderµÈ×é¼ş¡£
+Activity ºÍ View
+  Activity ÊÇAndroidÓ¦ÓÃÖĞ¸ºÔğÓëÓÃ»§½»»¥µÄ×é¼ş¡£ ¿ÉÒÔ°ÑËüÏëÏó³Éswing±à³ÌÖĞµÄJFrame¿Ø¼ş¡£²»¹ıÇø±ğÔÚÓÚJFrame±¾Éí¿ÉÒÔÉèÖÃ²¼¾Ö¹ÜÀíÆ÷£¬²»¶ÏÏòJFrameÖĞÌí¼Ó×é¼ş£¬µ«ActivityÖ»ÄÜÍ¨¹ısetContentView(View)À´ÏÔÊ¾Ö¸¶¨×é¼ş¡£
+  View×é¼şÊÇËùÓĞUI¿Ø¼ş¡¢ÈİÆ÷¿Ø¼şµÄ»ùÀà View×é¼ş¾ÍÊÇAndroidÓ¦ÓÃÖĞÓÃ»§ÊµÊµÔÚÔÚ¿´µ½µÄ²¿·Ö¡£µ«View×é¼şĞèÒª·Åµ½ÈİÆ÷ÖĞ£¬»òÕßÊ¹ÓÃActivity½«ËüÏÔÊ¾³öÀ´¡£Èç¹ûĞèÒªÍ¨¹ıÄ³¸öActivity°ÑÖ¸¶¨µÄViewÏÔÊ¾³öÀ´£¬µ÷ÓÃActivityµÄsetContentView()¼´¿É¡£
+  setContentView() ·½·¨¿ÉÒÔ½ÓÊÕÒ»¸öView¶ÔÏó×÷Îª²ÎÊı¡£
+  LinearLayout layout = new LineLayout(this);
+  super.setContentView(layout);
+  LinearLayout ÊÇ ViewGroup µÄ×ÓÀà£¬ViewGroup ÓÖÊÇ ViewµÄ×ÓÀà£¬½Ó×Åµ÷ÓÃActivityµÄsetContentView(layout)°ÑÕâ¸ö²¼¾Ö¹ÜÀíÆ÷ÏÔÊ¾³öÀ´¡£
+  setContentView()·½·¨¿ÉÒÔ½ÓÊÜÒ»¸ö²¼¾Ö¹ÜÀíÆ÷µÄID×÷Îª²ÎÊı
+  setContentView(R.layout.main) ÉèÖÃ¸ÃActivityÏÔÊ¾main.xml ¶¨ÒåµÄview
+  ----------------------------------------------
+  Êµ¼ÊÉÏActivityÊÇwindowµÄÈİÆ÷£¬activityÓĞÒ»¸ögetWindow()µÄ·½·¨£¬·µ»Ø¸ÃActivityËù°üº¬µÄ´°¿Ú¡£Èç¹ûActivityµÄsetContentView()²»ÉèÖÃÏÔÊ¾ÄÚÈİ¾ÍÊÇ¸ö¿ÕµÄ´°¿Ú¡£
+  Activity ÎªAndroidÓ¦ÓÃÌá¹©ÁË¿ÉÊÓ»¯ÓÃ»§½çÃæ£¬Èç¹û¸ÃAndroidÓ¦ÓÃĞèÒª¶à¸öÓÃ»§½çÃæ£¬ÄÇÃ´Õâ¸öAndroidÓ¦ÓÃ½«°üº¬¶à¸öActivity£¬¶à¸öActivity×é³ÉActivityÕ»£¬µ±Ç°»î¶¯µÄActivityÎ»ÓÚÕ»¶¨¡£
+  Activity°üº¬ÁËÒ»¸ösetTheme(int resid) ·½·¨À´ÉèÖÃÆä´°¿ÚµÄ·ç¸ñ£¬ÀıÈçÎÒÃÇÏ£Íû´°¿Ú²»ÏÔÊ¾±êÌâ¡¢Ò»¶Ô»°¿òµÄ·½Ê½À´ÏÔÊ¾£¬¶¼¿ÉÒÔÍ¨¹ı¸Ã·½·¨ÊµÏÖ¡£
+
+  ----------------------------------------------  
+Service
+  ServiceÓëActivityµÍÎ»ÊÇ²¢ÁĞµÄ£¬ËüÊÇÔËĞĞÔÚºóÌ¨µÄÃ»ÓĞÓÃ»§½çÃæ£¬ËüÊÇÔËĞĞÌá¹©ºóÌ¨·şÎñ»ò¼àÌıÆäËü×é¼şÔËĞĞ×´Ì¬µÄ£¬ËüµÄÉùÃ÷ÖÜÆÚÊÇ¶ÀÁ¢µÄ¡£
+
+BroadcastReceiver ÊÇAndroid ´ú±í¹ã²¥ÏûÏ¢½ÓÊÕÆ÷¡£
+  Ïàµ±ÓÚÊ±¼äÔ´£¬Ö»²»¹ıÊÂ¼şÔ´ÊÇ¶ÔÏó£¬BroadcastReceiver¼àÌıµÄÊÂ¼şÔ´ÊÇAndroidÓ¦ÓÃÖĞµÄÆäËü×é¼ş¡£
+  Ê¹ÓÃBroadcastReceiver×é¼ş½ÓÊÕ¹ã²¥±È½Ï¼òµ¥£¬¿ª·¢ÕßÖ»ÒªÊµÏÖBroadcastReceiver×ÓÀà£¬²¢ÖØĞ´onReceiver(Context context, Intent intent)·½·¨¼´¿É¡£µ±ÆäËü×é¼şÍ¨¹ısendBroadcast() sendStickyBroadcast() »òÕß sendOrderBroadcast()·½·¨·¢ËÍ¹ã²¥ÏûÏ¢Ê±£¬Èç¹û¸ÃBrocastReceiverÒ²¶Ô¸ÃÏûÏ¢¸ĞĞËÈ¤£¨Í¨¹ıIntentFilterÅäÖÃ£©£¬BroadcastReceiverµÄonReceiver(Context contex, Intent intent) ·½·¨¾Í»á±»´¥·¢¡£
+  ÊµÏÖÍêÁË»¹ĞèÒª×¢²á ×¢²á¿ÉÒÔÍ¨¹ıÔÚjava´úÂëÖĞÊ¹ÓÃContext.regisReceiver()
+  »òÕßÔÚAndroidManifest.xml ÖĞÊ¹ÓÃ<receiver.../>Íê³É×¢²á
+
+ContentProvider
+  ¶ÔÓÚAndroidµÄÓ¦ÓÃ³ÌĞòÀ´½²£¬ËûÃÇÃ¿¸öÓ¦ÓÃ¶¼ÓĞ×Ô¼ºµÄDalvikµÄĞéÄâ»ú£¬ÇÒÔËĞĞÔÚ×Ô¼ºµÄĞéÄâ»úÉÏ£¬Èç¹ûĞèÒªºá¿ç¶à¸öÓ¦ÓÃ½øĞĞÊı¾İ´«µİÄÇÃ´ĞèÒªÊ¹ÓÃContentProvider,ĞèÒªÊµÏÖÈçÏÂ³éÏó·½·¨¡£
+  insert(Uri,ContentValues) ÏòContentProvider ²åÈëÊı¾İ¡£
+  delete(Uri,ContentValues) É¾³ıContentProviderÖĞÖ¸¶¨µÄÊı¾İ¡£
+  update(Uri,ContentValues,String, String[])¸üĞÂContentProviderÖĞµÄÊı¾İ¡£
+  query(Uri,String[],String,String[],String)²éÑ¯
+Í¨³£ÓëContentProvider½áºÏÊ¹ÓÃµÄÊÇContentResolve£¬Ò»¸öÓ¦ÓÃ³ÌĞòÊ¹ÓÃContentProvider±©Â©×Ô¼ºµÄÊı¾İ£¬¶øÁíÒ»¸öÓ¦ÓÃÍ¨¹ıContentResolverÀ´·ÃÎÊÊı¾İ¡£
+
+
