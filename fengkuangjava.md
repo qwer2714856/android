@@ -259,4 +259,51 @@ ContentProvider
   query(Uri,String[],String,String[],String)查询
 通常与ContentProvider结合使用的是ContentResolve，一个应用程序使用ContentProvider暴漏自己的数据，而另一个应用通过ContentResolver来访问数据。
 
+Intent 和 IntentFilter
+  Intent 是Activity Service BroadcastReceiver 三者组件之间的通信载体。
+  1.当启动一个Activity 可以调用Context的startActivity(Intent intent)方法，该方法中的Intent参数封装需要启动的目录Activity的信息。
+  2.当启动一个Service Content startService(Intent intent) 方法或bindService(Intent service, ServiceConnection conn, int flags)方法，这两个中的intent封装了启动Service的信息
+  3.BroadcastReceiver Context sendBroadcast send..... 封装了触发的目标BroadcastTrceiver的信息。
+  显示Intent:显示Intent 明确指定需要启动或触发的组件的名称。
+  隐式Intent:隐式Intent 只是指定需要启动或者触发的组件应满足怎样的条件。
+  显示的系统直接找到指定的目标组件，启动它。
+  隐式的android系统需要对该Intent进行解系，然后汾西出条件，在去系统中查找匹配的组件，最后触发它们。
+  那么如何判断是隐式和显式的需要用到IntentFilter
 
+Android 的视图组件与容器组件
+  Android绝大部分UI组件都放在android.widest 包及其子包 android.view包及其子包。
+Anddroid 应用所有UI都继承了view类，View组件非常类似于swing编程的jpanel它代表一个空白的区域。
+  api docs index.html open then click Develop->Referece 即可
+  Guides 和 Referenc  两个标签的内容是Android的document
+
+Android UI由 xml布局或者使用java程序代码中通过调用方法进行控制。
+  ViewGroup是一个抽象类，因此实际中通常使用ViewGroup的子类作为容器。
+  ViewGroup容器控制其子组件分别依赖于ViewGroup.LayoutParams ViewGroup.MarginLayoutParams两个内部类。这个两个内部类中提供了一些XML属性，ViewGroup 容器中的子组件可以指定这些XML属性
+    ViewGroup.LayoutParams
+      1.android:layout_height
+      2.android:layout_width	
+      三个值fill_path和父辈一样。
+      match_parent等同上面那个。
+      wrap_content这个和内容一样。
+   ViewGroup.MarginLayoutParams
+      1.android:layout_marginButton
+                             Left
+                             Right
+                             Top
+   其它的后续继续介绍
+
+使用XML布局控制UI
+  1.setContentView(R.layout.资源名)切换使用哪个Activity 在res/layout建立然后引用R file
+  2.UI布局如果指定ID android:id 可以在java代码中使用findViewById(R.id....)获得组件的控制就可以通过方法设置其UI，或者设置监听等
+
+在代码中控制UI界面
+  虽然Android推荐XML的UI布局，但是完全可以使用代码开发就想swing一样抛开XML，完全由java代码中控制UI界面。通过NEW的方式创建出来，然后在以和是的方式组装在一起。
+  LinearLayout layout = new LinearLayout(this);
+  super.setContentView(layout);
+  layout.setOrientation(LinearLayout.VERTICAL);
+  TextView show = new TextView(this);
+  Button bn = new Button(this);
+  bn.setText("aaaa");
+  bn.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT));
+  layout.addView(show);
+  layout.addView(bn);
