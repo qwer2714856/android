@@ -259,4 +259,303 @@ ContentProvider
   query(Uri,String[],String,String[],String)查询
 通常与ContentProvider结合使用的是ContentResolve，一个应用程序使用ContentProvider暴漏自己的数据，而另一个应用通过ContentResolver来访问数据。
 
+Intent 和 IntentFilter
+  Intent 是Activity Service BroadcastReceiver 三者组件之间的通信载体。
+  1.当启动一个Activity 可以调用Context的startActivity(Intent intent)方法，该方法中的Intent参数封装需要启动的目录Activity的信息。
+  2.当启动一个Service Content startService(Intent intent) 方法或bindService(Intent service, ServiceConnection conn, int flags)方法，这两个中的intent封装了启动Service的信息
+  3.BroadcastReceiver Context sendBroadcast send..... 封装了触发的目标BroadcastTrceiver的信息。
+  显示Intent:显示Intent 明确指定需要启动或触发的组件的名称。
+  隐式Intent:隐式Intent 只是指定需要启动或者触发的组件应满足怎样的条件。
+  显示的系统直接找到指定的目标组件，启动它。
+  隐式的android系统需要对该Intent进行解系，然后汾西出条件，在去系统中查找匹配的组件，最后触发它们。
+  那么如何判断是隐式和显式的需要用到IntentFilter
 
+Android 的视图组件与容器组件
+  Android绝大部分UI组件都放在android.widest 包及其子包 android.view包及其子包。
+Anddroid 应用所有UI都继承了view类，View组件非常类似于swing编程的jpanel它代表一个空白的区域。
+  api docs index.html open then click Develop->Referece 即可
+  Guides 和 Referenc  两个标签的内容是Android的document
+
+Android UI由 xml布局或者使用java程序代码中通过调用方法进行控制。
+  ViewGroup是一个抽象类，因此实际中通常使用ViewGroup的子类作为容器。
+  ViewGroup容器控制其子组件分别依赖于ViewGroup.LayoutParams ViewGroup.MarginLayoutParams两个内部类。这个两个内部类中提供了一些XML属性，ViewGroup 容器中的子组件可以指定这些XML属性
+    ViewGroup.LayoutParams
+      1.android:layout_height
+      2.android:layout_width	
+      三个值fill_path和父辈一样。
+      match_parent等同上面那个。
+      wrap_content这个和内容一样。
+   ViewGroup.MarginLayoutParams
+      1.android:layout_marginButton
+                             Left
+                             Right
+                             Top
+   其它的后续继续介绍
+
+使用XML布局控制UI
+  1.setContentView(R.layout.资源名)切换使用哪个Activity 在res/layout建立然后引用R file
+  2.UI布局如果指定ID android:id 可以在java代码中使用findViewById(R.id....)获得组件的控制就可以通过方法设置其UI，或者设置监听等
+
+在代码中控制UI界面
+  虽然Android推荐XML的UI布局，但是完全可以使用代码开发就想swing一样抛开XML，完全由java代码中控制UI界面。通过NEW的方式创建出来，然后在以和是的方式组装在一起。
+  LinearLayout layout = new LinearLayout(this);
+  super.setContentView(layout);
+  layout.setOrientation(LinearLayout.VERTICAL);
+  TextView show = new TextView(this);
+  Button bn = new Button(this);
+  bn.setText("aaaa");
+  bn.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT));
+  layout.addView(show);
+  layout.addView(bn);
+
+使用xml布局file和java代码混合控制代码
+  将那些经常变化的放在java代码中，相反较为简单不经常变化的写在xml中。
+  int []image = image[]{R.drawable.java};
+  super.setContentView(R.layout.xxx);
+  LinearLayout ly = (LinearLayout)findViewById(R.id...);
+  ImageView iv = new ImageView(this);
+  ImageView.setImageResource(images[0]);//this is images path
+  ly.addView(ImageView);
+  image.setOnClickListener(new OnClickListener(){
+    public void onClick(View v){
+	ImageView.setImageResource(images[1]);
+    }
+
+  })
+
+开发自定义View
+  前面提到过View 类似于Swing编程中JPanel,它只是一个矩形的空白区域，Viiew组件没有任何内容，对于Android应用的其它UI组件来说，它们都继承了View组件，然后在View组件提供的空白区域上绘制外观。
+  如果用户需要自定义UI组件需要继承View类，然后重写一个或多个方法
+    可以被重写的方法如下：
+      1.构造器，重写构造器是指定View的最基本方式，当java代码创建一个View实例，或根据XML布局加载并构建界面将需要调用该构造器。
+      2.onFinishInflate() 这是一个回调方法,当引用从XML布局加载该组件并利用它来构建界面后，该方法就会被回调。
+      3.onMeasure(int, int) 调用该方法来检测View组件及它所包含的所有子组件的大小。
+      4.onLayout(boolean,int,int,int,int) 当该组件需要分配其子组件的位置，大小时，该方法就会被回调。
+      5.onSizeChanged(int,int,int,int) 当该组件的大小被改变这个方法就会被调用。
+      6.onDraw(Canvas) 当该组件将要绘制它的内容时回调该方法进行绘制。
+      7.onKeyDown(int,KeyEvent)
+      8.onKeyUp(int,KeyEvent)
+      9.onTrackballEvent(MotionEvent)当发生轨迹球事件时触发该方法。
+      10.onTouchEvent(MontionEvent)触发触屏事件
+      11.onWindowFocusChanged(boolean)当该组件得到失去焦点触发。
+      12.onAttachedToWindow() 当把该组件放入到某个窗口触发。
+      13.onDelachedFromWindow() 当把该组件从某个窗口分离触发。
+      14.onWindowVisibilityChanged(int) 当包含该组件的窗口的可见性发生改变触发该方法。
+  上面的不是需要全部重写只需要部分重写。
+
+public class MyDraw extends View{
+   public float x = 10;
+   public float y = 10;
+   public MyDraw(Context Context){
+	super(Context);
+   }
+   public void onDraw(Canvas canvas){
+	super.onDraw(canvas);
+        Point p = new Point();
+        p.setColor(Color.RED);
+        canvas.drawCircle(x,y,p);
+   }
+}
+
+public class CustomView extends Activity
+{
+    public void onCreate(Bundle b){
+        super.onCreate(b);
+        setContentView(R.layout.main);
+        LinearLayout ly = (LinearLayout)findViewById(R.id...);
+        MyDraw md = new MyDraw(this);
+        md.setMinimumWidth(200);
+        md.setMinimumHeight(200);
+        md.setOnTouchListener(new OnTouchListener(){
+           public boolean onTouch(View ag0, MotionEvent event){
+		md.x = event.getX();
+                md.y = event.getY();
+                md.invalidate();//重绘
+                return true;
+           }
+
+        })
+        ly.addView(md);
+    }
+
+}
+
+布局管理
+  每个布局组件都是UI组件它们是ViewGroup的子类。
+  类图： View
+          |
+       ViewGroup
+          |
+ AbsoluteLayout FrameLayout LinearLayout RelativeLayout TableLayout
+
+线性布局 LinearLayout
+ 1.组件横向布局 一个挨着一个的排列如果超出手机屏幕范围也不会换行。
+ 2.组件纵向布局
+
+android:gravity：
+
+这个是针对控件里的元素来说的，用来控制元素在该控件里的显示位置。例如，在一个Button按钮控件中设置如下两个属性，
+
+android:gravity="left"和android:text="提交"，这时Button上的文字“提交”将会位于Button的左部。
+
+
+
+android:layout_gravity：
+
+这个是针对控件本身而言，用来控制该控件在包含该控件的父控件中的位置。同样，当我们在Button按钮控件中设置android:layout_gravity="left"属性时，表示该Button按钮将位于界面的左部。
+ 
+ 相关用法。
+ 这两个属性可选的值有：top、bottom、left、right、center_vertical、fill_vertical、center_horizontal、fill_horizontal、center、fill、clip_vertical。
+一个属性可以包含多个值，需用“|”分开。其含义如下：
+top	将对象放在其容器的顶部，不改变其大小.
+bottom	将对象放在其容器的底部，不改变其大小.
+left	将对象放在其容器的左侧，不改变其大小.
+right	将对象放在其容器的右侧，不改变其大小.
+center_vertical	将对象纵向居中，不改变其大小. 
+垂直对齐方式：垂直方向上居中对齐。
+fill_vertical	必要的时候增加对象的纵向大小，以完全充满其容器. 
+垂直方向填充
+center_horizontal	将对象横向居中，不改变其大小. 
+水平对齐方式：水平方向上居中对齐
+fill_horizontal	必要的时候增加对象的横向大小，以完全充满其容器. 
+水平方向填充
+center	将对象横纵居中，不改变其大小.
+fill	必要的时候增加对象的横纵向大小，以完全充满其容器.
+clip_vertical	
+附加选项，用于按照容器的边来剪切对象的顶部和/或底部的内容. 剪切基于其纵向对齐设置：顶部对齐时，剪切底部；底部对齐时剪切顶部；除此之外剪切顶部和底部.
+垂直方向裁剪
+clip_horizontal	
+附加选项，用于按照容器的边来剪切对象的左侧和/或右侧的内容. 剪切基于其横向对齐设置：左侧对齐时，剪切右侧；右侧对齐时剪切左侧；除此之外剪切左侧和右侧.
+水平方向裁剪
+
+我们主要来看看center_vertical和center_horizontal两个属性值，center_vertical是指将对象在垂直方向上居中对齐，即在从上到下的方向上选择中间的位置放好；center_horizontal是指将对象水平方向上居中对齐，即在从左到右的方向上选择中间的位置放好。
+
+
+
+3.特殊情况
+当我们采用LinearLayout布局时，有以下特殊情况需要我们注意：
+(1)当 android:orientation="vertical"  时， android:layout_gravity只有水平方向的设置才起作用，垂直方向的设置不起作用。即：left，right，center_horizontal 是生效的。
+(2)当 android:orientation="horizontal" 时， android:layout_gravity只有垂直方向的设置才起作用，水平方向的设置不起作用。即：top，bottom，center_vertical 是生效的。
+
+
+android:gravity setGravity(int) 子组件的位置。
+android:orientation setOrientation(int) 子组件排列方式
+
+多个值用|分割 竖线前后不能出现空格。
+
+
+表格布局
+  表格布局由TableLayout所代表。
+  向TableLaout 添加每一个TableRow就是一行，向每一个TableRow添加组件就是一列，如果直接向TableLayout添加组件那么这个组件就占一行。
+  表格管理器中，可以为单元格设置三种行为方式。
+  1.Shrinkable如果设置了那么该列所有的单元格宽度可以被收缩，保证整个表格适应父辈宽度。
+  2.Stretchable如果设置了那么该列所有的单元格宽度可以被拉伸，保证组件能完全填满表格的剩余空间。
+  3.Collapsed如果设置了那么该列所有的单元格会被隐藏
+TableLayout 继承了LinearLayout因为他完全可以用LinearLayout的全部属性。
+  android:collapseColumns setColumnCollapsed(int,boolean) 设置需要被隐藏的列的列号，多个列号之间用逗号分隔
+  android:shrinkColumns setShrinkAllColumns(boolean)设置允许被收缩列的列号，多个列号用逗号分隔。
+  android:stretchColumns setStretchAllColumns(boolean)设置允许被拉伸的列的列号，多个列号之间用逗号分隔。
+  举例说明
+  <TableLayout 
+    android:shrinkColumns="1"
+    android:stretchColumns="2"
+    android:collapseColumns="3,4"
+  >
+  </TableLayout>
+  列从0开始
+  指定第二列可以收缩，第三列可以拉伸。
+  指定四五列被隐藏。
+  
+帧布局 FrameLayout
+  FrameLayout直接继承了ViewGroup
+  帧布局容器为每个加入其中的组件创建一个空白的区域称为一帧，所有每个子组件占据一帧，这些帧都会根据gravity属性自动对齐。
+  android:foreground setForeground(Drawable) 设置该帧布局容器的前景图像
+  android:foregroundGravity setForegroundGravity(int) 定义绘制前景图像的gravity属性。
+  这个如果发生覆盖没有办法调整层级关系的，也就说后出来的在最上面。
+  它是支持android:orientation="vertical"的
+  68页有个实例
+  时间轮训
+  new Timer().schedule(new TimerTask(){
+      @Override
+      public void run(){
+         //code
+      }
+
+  },0,100) //每100毫秒执行一次
+
+
+相对布局RelativeLayout 相对布局总是相对父辈组件，兄弟组件所以被称为相对布局。
+  如果A组件的位置是由B确定的那么需要先定义B在定义A
+  RelativeLayout所示的两个xml属性。
+  android:gravity setGravity(int) 设置该布局容器各个子组件的对齐方式。
+  android:ignoreGravity setIgnoreGravity(int) 设置哪个组件不受到gravity组件的影响。
+  为了控制分布，RelativeLayout提供了一个内部类：RelativeLayout.LayoutParams
+  RelativeLayout.LayoutParams 里只能设置为boolean值的属性
+  android:layout_centerHorizontal 该子组件是否位于布局容器的水平居中的位置。          layout_centerVertical   ...............................垂直居中位置。
+          layout_centerInParent   ...............................垂直居中位置
+                 alignParentButtom 底对齐
+                 alignParentLeft   左对齐
+                 alignParentRight  右对齐
+                 alignParentTop    顶对齐
+
+
+RelativeLayout.LayoutParams 里属性值为其它UI组件ID的XML。
+  android:layout_toRightOf  位于给出ID组件的右侧
+                 toLeftOf                   左侧
+                 above                      上方
+                 below                      下方
+                 alignTop,Bottom,Left,Right 上下左右
+这个注意对齐会拉伸组件
+这个倒时测试下看看会不会和线性布局一样如果ori属性为横向横向居中的属性不好用。
+除此之外RelativeLayout.LayoutParams 继承了android.view.ViewGroup.MarginLayoutParams 因此他有一些MarginLayoutParams的XML属性。
+
+梅花布局就是中间有个其它的相对于它布局。
+清单CODE 71
+XML的引用资源
+  1.ID是@id/...
+  2.图片是@drawable/....图片名字
+
+
+绝对布局absoluteLayout这个没什么价值没法办适应不同适配器。
+  组件的属性layout_x layout_y控制这个组件的位置
+  code 72
+
+
+!!!!!android 支持的尺寸!!!!!!!!!
+px 像素：每个PX对应屏幕的一个点
+dip 或这是 dp 一种基于屏幕密度的抽象单位。在每英寸160点的显示器上1dip = 1px 随着密度的改变dip与px发生改变
+sp 主要处理字体大小可以根绝用户的字体大小首选项进行缩放。
+in 英寸长度单位
+mm 毫米长队单位
+pt 磅 长度单位1/72 英寸
+
+基本界面组件
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+解释一句话该子组件：这个的意思是这个组件作为容器组件的子组件。
+  
