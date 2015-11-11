@@ -307,6 +307,7 @@ Android UI由 xml布局或者使用java程序代码中通过调用方法进行控制。
   bn.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT));
   layout.addView(show);
   layout.addView(bn);
+<<<<<<< HEAD
 
 使用xml布局file和java代码混合控制代码
   将那些经常变化的放在java代码中，相反较为简单不经常变化的写在xml中。
@@ -559,3 +560,5 @@ pt 磅 长度单位1/72 英寸
 
 解释一句话该子组件：这个的意思是这个组件作为容器组件的子组件。
   
+=======
+>>>>>>> 70256fbb5d56d0a6f4077efe110719ff72beab51
