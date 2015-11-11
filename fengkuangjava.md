@@ -530,26 +530,295 @@ mm 毫米长队单位
 pt 磅 长度单位1/72 英寸
 
 基本界面组件
+  1.问本框TextView 与 编辑框 EditText 的功能和用法。
+  TextView 继承了View 它也是EditText和Button这两个组件的父类，它相当于Swing中的JLabel但是它比JLabel更加强大。 
+  从功能上讲TextView就是一个wen本编辑器，只是android关闭了它的wen字编辑功能。如果开发者想要一个可以编辑的使用编辑内容的组件EditText。
+  不仅如此，TextView还派生出了Button类。图介绍了TextView 子类
+  image in 74
+  TextView 属性
+-------------------------------------------------
+属性名称	描述
+android:autoLink	设置是否当文本为URL链接/email/电话号码/map时，文本显示为可点击的链接。可选值(none/web/email/phone/map/all)
+android:autoText	如果设置，将自动执行输入值的拼写纠正。此处无效果，在显示输入法并输入的时候起作用。
+android:bufferType	指定getText()方式取得的文本类别。选项editable 类似于StringBuilder可追加字符，
+也就是说getText后可调用append方法设置文本内容。spannable 则可在给定的字符区域使用样式，参见这里1、这里2。
+
+android:capitalize	设置英文字母大写类型。此处无效果，需要弹出输入法才能看得到，参见EditView此属性说明。
+android:cursorVisible	设定光标为显示/隐藏，默认显示。
+android:digits	设置允许输入哪些字符。如“1234567890.+-*/%\n()”
+android:drawableBottom	在text的下方输出一个drawable，如图片。如果指定一个颜色的话会把text的背景设为该颜色，并且同时和background使用时覆盖后者 @drawable/...。
+android:background      绘制背景 可以是图片资源或者是颜色资源。
+android:drawableLeft	在text的左边输出一个drawable，如图片。
+android:drawablePadding	设置text与drawable(图片)的间隔，与drawableLeft、drawableRight、drawableTop、drawableBottom一起使用，可设置为负数，单独使用没有效果。
+android:drawableRight	在text的右边输出一个drawable，如图片。
+android:drawableTop	在text的正上方输出一个drawable，如图片。
+android:editable	设置是否可编辑。这里无效果，参见EditView。
+android:editorExtras	设置文本的额外的输入数据。在EditView再讨论。
+android:ellipsize	设置当文字过长时,该控件该如何显示。有如下值设置：”start”—–省略号显示在开头；”end”——省略号显示在结尾；”middle”—-省略号显示在中间；”marquee” ——以跑马灯的方式显示(动画横向移动)
+
+android:freezesText	设置保存文本的内容以及光标的位置。参见：这里。
+
+android:gravity	设置文本位置，如设置成“center”，文本将居中显示。
+android:hint	Text为空时显示的文字提示信息，可通过textColorHint设置提示信息的颜色。此属性在EditView中使用，但是这里也可以用。
+android:imeOptions	附加功能，设置右下角IME动作与编辑框相关的动作，如actionDone右下角将显示一个“完成”，而不设置默认是一个回车符号。这个在EditView中再详细说明，此处无用。
+android:imeActionId	设置IME动作ID。在EditView再做说明，可以先看这篇帖子：这里。
+
+android:imeActionLabel	设置IME动作标签。在EditView再做说明。
+android:includeFontPadding	设置文本是否包含顶部和底部额外空白，默认为true。
+android:inputMethod	为文本指定输入法，需要完全限定名（完整的包名）。例如：com.google.android.inputmethod.pinyin，但是这里报错找不到。
+android:inputType	设置文本的类型，用于帮助输入法显示合适的键盘类型。在EditView中再详细说明，这里无效果。
+android:marqueeRepeatLimit	在ellipsize指定marquee的情况下，设置重复滚动的次数，当设置为marquee_forever时表示无限次。
+android:ems	设置TextView的宽度为N个字符的宽度。这里测试为一个汉字字符宽度，如图： 
+android:maxEms	设置TextView的宽度为最长为N个字符的宽度。与ems同时使用时覆盖ems选项。
+android:minEms	设置TextView的宽度为最短为N个字符的宽度。与ems同时使用时覆盖ems选项。
+android:maxLength	限制显示的文本长度，超出部分不显示。
+android:lines	设置文本的行数，设置两行就显示两行，即使第二行没有数据。
+android:maxLines	设置文本的最大显示行数，与width或者layout_width结合使用，超出部分自动换行，超出行数将不显示。
+android:minLines	设置文本的最小行数，与lines类似。
+android:linksClickable	设置链接是否点击连接，即使设置了autoLink。
+android:lineSpacingExtra	设置行间距。
+android:lineSpacingMultiplier	设置行间距的倍数。如”1.2”
+android:numeric	如果被设置，该TextView有一个数字输入法。此处无用，设置后唯一效果是TextView有点击效果，此属性在EdtiView将详细说明。
+android:password	以小点”.”显示文本
+android:phoneNumber	设置为电话号码的输入方式。
+android:privateImeOptions	设置输入法选项，此处无用，在EditText将进一步讨论。
+android:scrollHorizontally	设置文本超出TextView的宽度的情况下，是否出现横拉条。
+android:selectAllOnFocus	如果文本是可选择的，让他获取焦点而不是将光标移动为文本的开始位置或者末尾位置。TextView中设置后无效果。
+android:shadowColor	指定文本阴影的颜色，需要与shadowRadius一起使用。效果：  
+android:shadowDx	设置阴影横向坐标开始位置。
+android:shadowDy	设置阴影纵向坐标开始位置。
+android:shadowRadius	设置阴影的半径。设置为0.1就变成字体的颜色了，一般设置为3.0的效果比较好。
+android:singleLine	设置单行显示。如果和layout_width一起使用，当文本不能全部显示时，后面用“…”来表示。如android:text="test_ singleLine " android:singleLine="true" android:layout_width="20dp"将只显示“t…”。如果不设置singleLine或者设置为false，文本将自动换行
+android:text	设置显示文本.
+android:textAppearance	设置文字外观。如“?android:attr/textAppearanceLargeInverse
+”这里引用的是系统自带的一个外观，？表示系统是否有这种外观，否则使用默认的外观。可设置的值如下：textAppearanceButton/textAppearanceInverse/textAppearanceLarge/textAppearanceLargeInverse/textAppearanceMedium/textAppearanceMediumInverse/textAppearanceSmall/textAppearanceSmallInverse
+android:textColor	设置文本颜色
+android:textColorHighlight	被选中文字的底色，默认为蓝色
+android:textColorHint	设置提示信息文字的颜色，默认为灰色。与hint一起使用。
+android:textColorLink	文字链接的颜色.
+android:textScaleX	设置文字之间间隔，默认为1.0f。分别设置0.5f/1.0f/1.5f/2.0f效果如下：
+ 
+android:textSize	设置文字大小，推荐度量单位”sp”，如”15sp”
+android:textStyle	设置字形[bold(粗体) 0, italic(斜体) 1, bolditalic(又粗又斜) 2] 可以设置一个或多个，用“|”隔开
+android:typeface	设置文本字体，必须是以下常量值之一：normal 0, sans 1, serif 2, monospace(等宽字体) 3] 
+android:height	设置文本区域的高度，支持度量单位：px(像素)/dp/sp/in/mm(毫米)
+android:maxHeight	设置文本区域的最大高度
+android:minHeight	设置文本区域的最小高度
+android:width	设置文本区域的宽度，支持度量单位：px(像素)/dp/sp/in/mm(毫米)，与layout_width的区别看这里。
+
+android:maxWidth	设置文本区域的最大宽度
+android:minWidth	设置文本区域的最小宽度
+----------------------------------------------------------
+  解释几个
+  1.android:autoLink属性值是如下几个值组成，如果需要多个值很简单用竖线|
+    none:                              不设置任何超链接。
+    web(对应于Linkify.WEB_URLS):       将wen本框中的URL地址转为超链接
+    email(............EMAIL_ADDRESSES) 将wen本框中的E-mail转换为超链接
+    phone(............PHONE_NUMBERS)   将wen本转化为电话超链接
+    map(..............MAP_ADDRESSES)   将wen本地址转化为超链接
+    all:相当于                         web|email|phone|map
+  2.android:ellipsize 设置如果wen本框中的内容超出wen本框的显示范围处理值
+    none:不进行任何处理
+    start:在wen本的开头部分进行省略
+    middle:在wen本的中间进行省略
+    end:在wen本的结尾进行省略
+    marquee在wen本的结尾以淡出的方式省略。
+    这个省略不是拿掉而是说使用省略号。
+    如果属性后的方法参数需要传float的注意属性值也需要float类的。
+  XMLwen件也可以用作Drawable下的资源使用。
+  例如
+  布局xml
+  <TextView 
+      android:background="@drawable/bg_color" />
+  drawable目录下面这样来定义
+  bg_border.xml
+  内容是
+  <?xml version="1.0" encoding="UTF-8" ?>
+  <shape xmlns:android="http://schemas.android.com/apl/res/android">
+      <solid android:color="#000000" />
+      <stroke android:width="2dip" android:color="#ff0000">
+  </shape>
+
+---------------------------------------------------------------
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <!-- 圆角 -->
+    <corners
+        android:radius="9dp"
+        android:topLeftRadius="2dp"
+        android:topRightRadius="2dp"
+        android:bottomLeftRadius="2dp"
+        android:bottomRightRadius="2dp"/><!-- 设置圆角半径 -->
+    
+    <!-- 渐变 -->
+    <gradient
+        android:startColor="@android:color/white"
+        android:centerColor="@android:color/black"
+        android:endColor="@android:color/black"
+        android:useLevel="true"
+        android:angle="45"
+        android:type="radial"
+        android:centerX="0"
+        android:centerY="0"
+        android:gradientRadius="90"/>
+    
+    <!-- 间隔 -->
+    <padding
+        android:left="2dp"
+        android:top="2dp"
+        android:right="2dp"
+        android:bottom="2dp"/><!-- 各方向的间隔 -->
+    
+    <!-- 大小 -->
+    <size
+        android:width="50dp"
+        android:height="50dp"/><!-- 宽度和高度 -->
+    
+    <!-- 填充 -->
+    <solid
+        android:color="@android:color/white"/><!-- 填充的颜色 -->
+    
+    <!-- 描边 -->
+    <stroke
+        android:width="2dp"
+        android:color="@android:color/black"
+        android:dashWidth="1dp"
+        android:dashGap="2dp"/>
+    
+</shape>
+
+---------------------------------------------------------------
+用户友好的界面
+  鼠标放到wen本框上会选中已经存在的内容。放到电话框上只能输入电话号码。
+  当鼠标获得焦点选取所有的内容
+  <EditText
+      android:hint="请输入账号"  这个是默认的提示信息，什么都没输入默认就这个。
+      android:password="true" 能显示个点，想密码框那样。
+      android:selectAllOnFocus="true"  当输入框获得焦点后选取所有内容。
+      android:phoneNumber="true" 只能输入数字,而且囊当你放在框上，弹出的是数字键盘。
+  />
+
+按钮(Button) 与 图片按钮(ImageButton) 组件的功能和用法。
+  Button 继承了TextView ImageButton 继承了 Button,不管是Button 还是 ImageButton它们的功能都很单一，主要就是在UI界面上生成一个按钮提供一个OnClick 供用户点击。然而Button 和 ImageButton区别在于，Button显示的是wen字，而ImageButton显示的是图片。
+  特别说明在ImageButton上指定android:text是没有用处的，也不会有任何的内容显示。
+  按钮使用期来比较容易，可以通过，android:background属性为按钮增加背景颜色或者背景图片，但这种背景图片或者颜色是固定，不会随着用户的动作改变而改变，ImageButton，图片按钮可以指定android:src属性但不能设置wen字，如果只是为ImageButton的android:src指定一张图片也是不可以随用户多动作改变。
+  更强大的按钮
+  实例：按钮、圆形按钮、带wen字的图片按钮。件来定义Drawable对象，再将Drawable对象设为Button的android:background值，或者为ImageButton的src属性值。
+  <!--普通wen字按钮-->
+  <Button 
+      android:text="pt"
+  />
+  <!--普通图片按钮-->
+  <ImageButton
+      android:src="@drawable/blue"  和颜色叠加这个在上background在下
+      android:background="#900000"
+  />
+  
+  <!--按下的时候显示不同图片的按钮-->
+  <ImageButton
+      android:src="@drawable/button_selector"
+      android:background="#000000"
+  />
+  <Button
+      android:background="@drawable/button_select"
+      android:text="带wen字的图片按钮"
+  />
+
+  button_select xml 
+  <?xml version="1.0" encoding="UTF-8" ?>
+  <selector xmlns:android="http://schemas.android.com/apk/res/android">
+      <!--指定按钮按下时的图片-->
+      <item android:state_pressed="true"
+	android:drawable="@drawable/red"
+      />
+      <!--指定按钮松开时的图片-->
+      <item android:state_pressed="false"
+	android:drawable="@drawable/purple"	 
+      />
+   </selector>
+上面资源wen件使用<selector .../>元素定义一个StateListDrawable对象
+关于使用xml来定义Drawable内容后面又介绍。
+如果使用图片作为背景或者是前景，如果按钮太长那么这张图会被拉伸。
 
 
+使用9Path  图片作为按钮的背景
+  当背景图片缩放由于是全部缩放，以保证正好合适的按钮所以可能达不到我们希望缩放图片的某个部分。为了实现这个缩放想缩放的部分使用9Path 图片来实现。
+  9Path是一种特殊的PNG图片这种图片以.9.png结尾。它在原始的图片的四周各加一个像素的线条，这4条线就决定了该图片缩放的规则、内容显示的规则。
+  左侧和上侧的直线共同决定了图片的缩放区域，左侧区域决定了纵向，上侧区域决定了横向。二者相交决定了在两个方向的缩放。
+  右侧和下侧相交组成的为内容显示区域的矩形。
+  http://jingyan.baidu.com/article/86fae346b60f633c49121a97.html 这个介绍如何使用draw9patch.bat
+  这个工具存在于，sdk下面的tool里面。
 
+单选按钮(RadioButton)和复选框(CheckBox)
+  RadioButton 和 CheckBox 都继承自Button这个类
+  RadioButton 和 CheckBox 都有被选中的功能所以有android:checked属性。
+  该属性用于指定默认是否被选中。
+  因为RadioButton通常一组只有一个被选中所以有个RadioGroup来组合使用。
+  code on 85
 
+状态开关(ToggleButton)按钮功能与用法
+  ToggleButton 也继承Button
+  ToggleButton和CheckBox非常相似，但是ToggleButton通常用于切换程序中的某种状态。
+  下面显示ToggleButton所支持的XML属性及状态。
+  1.android:checked setChecked(boolean) 设置是否选中
+  2.android:textOff 设置当该按钮没有被选中时显示的wen本。
+  3.android:textOn  设置当该按钮被选中的时候显示的wen本。
+  code on 86
+  有个事件改变状态就会触发它
+  togglebutton.setOnCheckedChangeListener(new onCheckedChangeListener(){
+    public void onCheckedChangeListener(CompoundButton ag0, boolean ag1){
+	if(ag1){
+		LinearLayout(object).setOrientaion(1) 垂直
+        }else{
+ 		LinearLayout(object).setOrientation(0)  水平
+         }
+    }
 
+   })
+时钟(AnalogClock 和 DigitalClock) 的功能与用法
+  时钟UI组件 DigitalClock 继承自TextView, AnalogClock 继承View
+  DigtalClock会显示当前时间，可以显示秒数。
+  AnalogClock 模拟的显示当前时间，它不会显示秒数，它重写了View 的 OnDraw方法
 
+计时器组件
+  Chronnometer继承自TextView 作用是计算从某个时间点开始，一共过去了多少时间。
+  它有一个android:format属性用于设置计数器的计时格式。
+  方法如下
+  setBase(long base) 设置时间的起始点。
+  setFormat(String format) 设置显示格式
+  start() 开始
+  stop()  停止
+  setOnChronnometerTickListener(Chronnometer.OnChronnometerTickListener listener): 为计数器设定时间监听器，当计时器改变时触发该监听器。
+  code on 88 line
+  Chronnometer ch = (Chronnometer)findViewById(R.id....);
+  button.setOnClickListener(new OnClickListener(){
+    public void onClick(View e){
+	ch.setBase(SystemClock.elapsedRealtime());
+        ch.start();
+    }
+  })
+  ch.setOnChronnometerTickListener(new OnChronnometerTickListener(){
+	public void onChronnometerTicke(Chronnometer ch){
+		//如果超过了20s就停止 这里用SystemClock.elapsedReatime()获取时间
+		if(SystemClock.elapsedRealtime() - ch.getBase()){
+			ch.stop();
+		}
+        }
 
+  })
+  
+关于程序中的SystemClock类是一个获取系统事件，运行时间的工具类。可以查看API
 
-
-
-
-
-
-
-
-
-
-
-
-
+图像视图 (ImageView) 的功能和用法.
+  ImageView继承自View组建，主要用它承载图像，但是这么讲不是特别确切，因为任何Drawable对象都可以通过它来承载。
+  1.android:adjustViewBounds setAdjustViewBounds 设置是否调整组件的边界来保持图片的比例。
+  2.android:maxHeight setMaxHeight(int) 设置ImageView 的最大高度
+  3.android:maxWidth  setMaxWidth(int)  设置ImageView 的最大宽度
+  4.android:scaleType setScaleType(ImageView.ScaleType) 设置所显示的图片如何缩放或者移动以适应ImageView的大小。
+  5.android:src	      setImageRresource(int) 设置ImageView 所显示的Drawable对象的Id
+  
+  
 
 
 
