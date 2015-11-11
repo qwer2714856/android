@@ -817,7 +817,17 @@ android:minWidth	设置文本区域的最小宽度
   3.android:maxWidth  setMaxWidth(int)  设置ImageView 的最大宽度
   4.android:scaleType setScaleType(ImageView.ScaleType) 设置所显示的图片如何缩放或者移动以适应ImageView的大小。
   5.android:src	      setImageRresource(int) 设置ImageView 所显示的Drawable对象的Id
-  
+ 关于android:scaleType的取值
+ matrix(ImageView.ScaleType.MATRIX):使用matrix的方式进行缩放
+ fitXY(ImageView.ScaleType.FIT_XY):对图片横向、纵向、独立缩放使其完全适应于该ImageView图片的横纵可能会该变
+ fitStart(ImageView.ScaleType.FIT_START):保持横纵比例缩放，知道这个张图片能完全的显示在这个ImageView中（图片比较长的边与ImageView的边相等），缩放完后将图片放到ImageView的左上角。
+ fitCenter(ImageView.ScaleType.FIT_CENTER)保持横纵比例较长的边和ImageView相应的边相同，在中间显示。
+ fitEnd(ImageView.ScaleType.FIT_END):保持横纵缩放图片，知道该图片能完全显示在ImageView中..........放在ImageView右下角。
+ center(ImageView.ScaleType.CENTER):把图片放到ImageView中间但是不缩放。
+ centerCrop(ImageView.ScaleType.CENTER_CROP):保持横纵比例缩放图片，以使其能完全覆盖ImageView.
+ centerInsid(ImageView.ScaleType.CENTER_INSIDE):保持横纵比例缩放图片，是的能完全显示该图片。
+实例：
+code 90 line
   
 
 
