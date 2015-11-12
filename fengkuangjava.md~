@@ -828,7 +828,19 @@ android:minWidth	设置文本区域的最小宽度
  centerInsid(ImageView.ScaleType.CENTER_INSIDE):保持横纵比例缩放图片，是的能完全显示该图片。
 实例：
 code 90 line
-  
+处理图片的一个类BitmapDrawable
+ImageView 可以做图片浏览器，暂时没看懂bitmapdrawable那块
+
+高级界面组件
+    1.自动完成wen本框(AutoCompleteTextView)的功能和用法。
+    它是从EditText 派生而出的。
+    AutoCompleteTextView 支持的属性和相关的方法。
+---------------------------------------------------
+android:completionHint setCompletionHint(CharSequence) 设置出现在下拉菜单中的提示标题
+android:completionThreshold setThreshold(int) 设置用户至少输入几个字符才会显示提示
+android:dropDownHeight setDropDownHeight(int) 设置下拉菜单的高度。
+
+----------------------------------------------------
 
 
 
