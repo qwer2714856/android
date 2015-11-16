@@ -1091,7 +1091,7 @@ File file = new File(getFilesDir(), null); 1获取写目录，2file name
 getCacheDir()
 目录是data/data/应用包名/cache/
 当手机的存储空间不足的情况cache file夹下的内容就会被清除，所以存在这个目录下的东西可能被删掉。空间足就不删，但是不一定帮着删。所以需要自己写个清除程序。但重要的不要写在cache会被删。
-清除数据，左键按住，会出现一个appinfo 进去clearcache cleardata 清缓存和清数据（包括缓存和数据全删，不可逆向）
+清除数据，左键按住，会出现一个appinfo 进去clearcache cleardata 清缓存和清数据（包括缓存和数据全删，不可逆向） 
 
 
 注意一点写只能写在自己应用下，不能写到别人的否则报没有权限
